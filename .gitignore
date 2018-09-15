@@ -14,3 +14,7 @@ server.pid
 *.eml
 /dist/
 .cache
+*.DS_Store
+.idea
+/.idea/
+/.idea
