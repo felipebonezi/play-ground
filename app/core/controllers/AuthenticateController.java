@@ -2,6 +2,7 @@ package core.controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import core.forms.LoginForm;
+import play.cache.SyncCacheApi;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.BodyParser;
@@ -16,8 +17,8 @@ import java.util.concurrent.CompletionStage;
 
 public abstract class AuthenticateController<T> extends AController {
 
-    public AuthenticateController(FormFactory formFactory) {
-        super(formFactory);
+    public AuthenticateController(FormFactory formFactory, SyncCacheApi cacheApi) {
+        super(formFactory, cacheApi);
     }
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -42,12 +43,12 @@ public abstract class AuthenticateController<T> extends AController {
             claims.put("user.auth_token", authToken);
             String jwt = createJWT(claims);
 
-            Http.Cookie cookie = Http.Cookie.builder(Parameter.AUTHORIZATION, jwt)
+            Http.Cookie cookie = Http.Cookie.builder(Http.HeaderNames.AUTHORIZATION, jwt)
                     .withHttpOnly(true)
                     .build();
 
             ObjectNode json = jsonSuccess();
-            json.put(Parameter.AUTHORIZATION, jwt);
+            json.put(Http.HeaderNames.AUTHORIZATION, jwt);
 
             return ok(json).withCookies(cookie);
         });

@@ -7,10 +7,10 @@ import java.util.Locale;
 
 public final class ViewUtil {
 
-    private static final Locale BRAZIL = new Locale("pt", "BR");
-    private static final DecimalFormatSymbols REAL = new DecimalFormatSymbols(BRAZIL);
+    private static final Locale US = new Locale("en-US", "US");
+    private static final DecimalFormatSymbols DOLLAR = new DecimalFormatSymbols(US);
 
-    public static final java.text.DecimalFormat DEFAULT_DECIMAL_FORMAT = new java.text.DecimalFormat("¤###,###,##0.00", REAL);
+    public static final java.text.DecimalFormat DEFAULT_DECIMAL_FORMAT = new java.text.DecimalFormat("¤ ###,###,##0.00", DOLLAR);
     public static final java.text.DecimalFormat DEFAULT_PERCENT_FORMAT = new java.text.DecimalFormat("#,##0.00%");
 
     /**

@@ -1,7 +1,3 @@
-import com.typesafe.config.ConfigFactory
-
-val conf = ConfigFactory.parseFile(new File("conf/eds-version.conf")).resolve()
-
 name := "play-core"
 version := "0.1"
 organization := "br.com.ehureka"
@@ -11,21 +7,17 @@ javacOptions in compile ++= Seq("-Xlint:deprecation")
 publishArtifact in (Compile, packageDoc) := false
 resolvers += Resolver.mavenLocal
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
+lazy val core = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 
 libraryDependencies ++= Seq(
+  javaWs,
   ehcache,
   cacheApi,
   filters,
-  guice
+  guice,
+  "org.mindrot" % "jbcrypt" % "0.4",
+  "com.auth0" % "java-jwt" % "3.3.0"
 )
 
-publishTo := Some(
-  "My resolver" at "https://mycompany.com/repo"
-)
-
-credentials += Credentials(
-  "Repo", "https://mycompany.com/repo", "admin", "admin123"
-)

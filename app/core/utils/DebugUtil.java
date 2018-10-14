@@ -56,6 +56,9 @@ public final class DebugUtil {
      * @param mensagem - Mensagem a ser salva.
      */
     public static void d(String tag, String mensagem) {
+        if (AppUtil.isProdMode())
+            return;
+
         Logger.debug(String.format(MESSAGE_PATTERN, tag, mensagem));
     }
 
@@ -125,6 +128,15 @@ public final class DebugUtil {
      */
     public static void e(String tag, Exception exception) {
         Logger.error(String.format(MESSAGE_PATTERN, tag, exception.toString()));
+    }
+
+    /**
+     * Log de modo MESSAGE do sistema.
+     * @param tag - Tag
+     * @param throwable - Exceção a ser salva.
+     */
+    public static void e(String tag, Throwable throwable) {
+        Logger.error(String.format(MESSAGE_PATTERN, tag, throwable.toString()));
     }
 
 }

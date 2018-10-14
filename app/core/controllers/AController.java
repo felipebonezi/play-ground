@@ -41,7 +41,6 @@ public abstract class AController extends Controller {
         public static final String RECORDS_FILTERED = "recordsFiltered";
         public static final String FORM_ERROR = "formError";
         public static final String ERROR = "error";
-        public static final String AUTHORIZATION = "Authorization";
     }
 
     public static final class Code {
@@ -62,15 +61,17 @@ public abstract class AController extends Controller {
     }
 
     protected final FormFactory formFactory;
+    protected final SyncCacheApi cacheApi;
 
-    public AController(FormFactory formFactory) {
+    public AController(FormFactory formFactory, SyncCacheApi cacheApi) {
         this.formFactory = formFactory;
+        this.cacheApi = cacheApi;
     }
 
     public boolean isNullOrHasError(Form<?> form) {
         boolean invalid = form == null || form.hasErrors() || form.hasGlobalErrors();
 
-        if (invalid) {
+        if (invalid && form != null) {
             DebugUtil.d(TAG, String.format("Invalid form: %s", form.errorsAsJson()));
         }
 
@@ -113,9 +114,14 @@ public abstract class AController extends Controller {
     }
 
     public String createJWT(Map<String, Object> claims) {
-        LocalDateTime now = LocalDateTime.now().plusMinutes(30L);
+        return createJWT(claims, LocalDateTime.now().plusHours(8));
+    }
+
+    public String createJWT(Map<String, Object> claims, LocalDateTime expiration) {
+        int month = expiration.getMonthValue() - 1;
+
         Calendar expiresAt = Calendar.getInstance();
-        expiresAt.set(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), now.getHour(), 0);
+        expiresAt.set(expiration.getYear(), month, expiration.getDayOfMonth(), expiration.getHour(), expiration.getMinute());
 
         String token = null;
         try {
@@ -162,7 +168,7 @@ public abstract class AController extends Controller {
     }
 
     private static String removeBearer(String jwtToken) {
-        if (jwtToken.startsWith("Bearer")) {
+        if (jwtToken.startsWith("Bearer") || jwtToken.startsWith("Basic")) {
             jwtToken = jwtToken.replace("Bearer", StringUtil.EMPTY).trim();
         }
         return jwtToken;

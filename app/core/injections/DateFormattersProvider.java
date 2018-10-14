@@ -29,7 +29,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
 
     @Override
     public Formatters get() {
-        Formatters formatters = new Formatters(messagesApi);
+        Formatters formatters = new Formatters(this.messagesApi);
         formatters.register(LocalDate.class, new SimpleFormatter<LocalDate>() {
 
             private Pattern timePattern = Pattern.compile(

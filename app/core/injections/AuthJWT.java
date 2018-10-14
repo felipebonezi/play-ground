@@ -3,6 +3,7 @@ package core.injections;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
+import core.auth.JWTValidateWithDB;
 import core.auth.UserSession;
 import core.controllers.AController;
 import core.utils.DebugUtil;
@@ -56,19 +57,6 @@ public class AuthJWT extends Security.Authenticator {
 
     public static Algorithm getJwtAlgorithm() {
         return JWT_ALGORITHM;
-    }
-
-    public interface JWTValidateWithDB {
-        boolean isValid(UserSession session);
-    }
-
-    public static class DefaultJWTValidateWithDB implements JWTValidateWithDB {
-
-        @Override
-        public boolean isValid(UserSession session) {
-            return session != null && !Strings.isNullOrEmpty(session.authToken);
-        }
-
     }
 
 }

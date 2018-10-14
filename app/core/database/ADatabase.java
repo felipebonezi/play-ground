@@ -11,28 +11,20 @@ import java.util.List;
 
 public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
-    private final Finder<I, T> finder;
+    private final Finder<I, T> mFinder;
 
-    public ADatabase() {
-        this.finder = new Finder<>(getFinderClass());
-    }
-
-    protected ADatabase(Finder<I, T> finder) {
-        this.finder = finder;
-    }
-
-    protected Class<T> getFinderClass() {
-        return null;
+    public ADatabase(Finder<I, T> finder) {
+        this.mFinder = finder;
     }
 
     @Override
     public Finder<I, T> getFinder() {
-        return this.finder;
+        return this.mFinder;
     }
 
     @Override
     public T findById(I id) {
-        return this.finder.byId(id);
+        return this.mFinder.byId(id);
     }
 
     @Override
@@ -52,7 +44,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public T find(String fields, Expression expression, String orderBy) {
-        Query<T> query = this.finder.query();
+        Query<T> query = this.mFinder.query();
         if (expression != null)
             query = query.where(expression);
 
@@ -82,7 +74,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public T findOne(String fields, Expression expression, String orderBy) {
-        Query<T> query = this.finder.query();
+        Query<T> query = this.mFinder.query();
         if (expression != null)
             query.where(expression);
 
@@ -95,7 +87,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public List<T> findAll() {
-        return this.finder.all();
+        return this.mFinder.all();
     }
 
     @Override
@@ -155,7 +147,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public List<T> findAll(String fields, Expression expression, String orderBy, int offset, int limit) {
-        Query<T> query = this.finder.query();
+        Query<T> query = this.mFinder.query();
         if (expression != null)
             query.where(expression);
 
@@ -186,7 +178,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public F.Tuple<List<T>, Integer> findAndCountAll(String fields, Expression expression, String orderBy, int offset, int limit) {
-        Query<T> query = this.finder.query();
+        Query<T> query = this.mFinder.query();
         if (expression != null)
             query.where(expression);
 
@@ -216,7 +208,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public F.Tuple<List<T>, F.Tuple<Integer, Integer>> findAndCountersAll(String fields, Expression expression, String orderBy, int offset, int limit) {
-        Query<T> query = this.finder.query();
+        Query<T> query = this.mFinder.query();
         if (expression != null)
             query.where(expression);
 
@@ -227,7 +219,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
         if (limit > 0) {
             if (offset > 0)
-                query.setFirstRow(offset * limit);
+                query.setFirstRow(offset);
             query.setMaxRows(limit);
         }
 
@@ -247,12 +239,12 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
 
     @Override
     public int count(Expression expression) {
-        return this.finder.query().where(expression).findCount();
+        return this.mFinder.query().where(expression).findCount();
     }
 
     @Override
     public boolean exists(Expression expression) {
-        return this.finder.query().where(expression).findCount() > 0;
+        return this.mFinder.query().where(expression).findCount() > 0;
     }
 
 }

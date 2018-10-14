@@ -5,8 +5,14 @@ import play.data.validation.Constraints;
 
 public abstract class UpdateForm {
 
-    @Constraints.Min(value = 1L, groups = UpdateGroup.class)
+    @Constraints.Min(value = 1, groups = UpdateGroup.class)
     @Constraints.Required(groups = UpdateGroup.class)
     public Long id;
+
+    public UpdateForm() {}
+
+    public UpdateForm(Long id) {
+        this.id = id;
+    }
 
 }

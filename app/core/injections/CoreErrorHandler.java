@@ -1,7 +1,6 @@
 package core.injections;
 
 import com.typesafe.config.Config;
-import core.controllers.AController;
 import play.Environment;
 import play.api.OptionalSourceMapper;
 import play.api.routing.Router;
@@ -16,6 +15,9 @@ import javax.inject.Singleton;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import static core.controllers.AController.Code;
+import static core.controllers.AController.jsonError;
+
 @Singleton
 public class CoreErrorHandler extends DefaultHttpErrorHandler {
 
@@ -27,21 +29,22 @@ public class CoreErrorHandler extends DefaultHttpErrorHandler {
     @Override
     public CompletionStage<Result> onServerError(Http.RequestHeader request, Throwable exception) {
         exception.printStackTrace();
-        return CompletableFuture.completedFuture(Results.badRequest(AController.jsonError(AController.Code.SERVER_ERROR, exception.getMessage())));
+        return CompletableFuture.completedFuture(Results.badRequest(jsonError(Code.SERVER_ERROR, exception.getMessage())));
     }
 
     @Override
     protected CompletionStage<Result> onNotFound(Http.RequestHeader request, String message) {
-        return CompletableFuture.completedFuture(Results.badRequest(AController.jsonError(AController.Code.NOT_FOUND, message)));
+        return CompletableFuture.completedFuture(Results.badRequest(jsonError(Code.NOT_FOUND, message)));
     }
 
     @Override
     protected CompletionStage<Result> onForbidden(Http.RequestHeader request, String message) {
-        return CompletableFuture.completedFuture(Results.badRequest(AController.jsonError(AController.Code.UNAUTHORIZED, message)));
+        return CompletableFuture.completedFuture(Results.badRequest(jsonError(Code.UNAUTHORIZED, message)));
     }
 
     @Override
     protected CompletionStage<Result> onBadRequest(Http.RequestHeader request, String message) {
-        return CompletableFuture.completedFuture(Results.badRequest(AController.jsonError(AController.Code.SERVER_ERROR, message)));
+        return CompletableFuture.completedFuture(Results.badRequest(jsonError(Code.SERVER_ERROR, message)));
     }
+
 }
