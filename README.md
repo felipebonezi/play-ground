@@ -23,3 +23,7 @@ Generating pre-built zip archives for distribution:
 $ cd playframework-core
 $ sbt dist
 ```
+
+### Authors
+
+  - [Felipe Bonezi](mailto:felipebonezi@gmail.com)
