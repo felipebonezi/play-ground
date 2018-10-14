@@ -1,6 +1,5 @@
-# JCK Play! Framework
-
-JCK is a web service, rest api using [Play! Framework](https://playframework.com).
+# playframework-core
+Core classes &amp; models to re-use on your [Play! Framework](https://playframework.com/) project.
 
 ### Dependencies
 
@@ -9,17 +8,18 @@ JCK is a web service, rest api using [Play! Framework](https://playframework.com
 
 ### Installation
 
-JCK requires [Play! Framework](https://playframework.com/) v2.6.20 to run.
+This project requires [Play! Framework](https://playframework.com/) v2.6.20 to run.
 
 Install the dependencies and devDependencies and start the server at default port (9000).
 
 ```sh
-$ cd jck-play-ws
+$ cd playframework-core
 $ sbt compile run
 ```
 
 #### Building for source
 Generating pre-built zip archives for distribution:
 ```sh
+$ cd playframework-core
 $ sbt dist
 ```
