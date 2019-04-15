@@ -1,6 +1,6 @@
 name := "play-core"
-version := "0.1"
-organization := "br.com.ehureka"
+version := "0.2"
+organization := "justa.com.vc"
 
 scalacOptions ++= Seq("-feature")
 javacOptions in compile ++= Seq("-Xlint:deprecation")
@@ -9,7 +9,7 @@ resolvers += Resolver.mavenLocal
 
 lazy val core = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 libraryDependencies ++= Seq(
   javaWs,

@@ -17,6 +17,7 @@ import play.data.FormFactory;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.BodyParser;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import javax.inject.Inject;
@@ -43,8 +44,8 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         super(formFactory, cacheApi);
     }
 
-    public UserSession getSession() {
-        return getSession(this.cacheApi);
+    public UserSession getSession(Http.Request req) {
+        return getSession(req, this.cacheApi);
     }
 
     protected List<Class<?>> getModelCreateGroups() {
@@ -56,31 +57,30 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
     }
 
     protected abstract Class<M> getModelClass();
-    protected abstract DataTableResultForm listEntities(DataTableForm model) throws CoreException;
-    protected abstract Long createEntity(M model) throws CoreException;
-    protected abstract Long updateEntity(M model) throws CoreException;
-    protected abstract M detailEntity(long entityId) throws CoreException;
+    protected abstract DataTableResultForm listEntities(Http.Request req, DataTableForm model) throws CoreException;
+    protected abstract Long createEntity(Http.Request req, M model) throws CoreException;
+    protected abstract Long updateEntity(Http.Request req, M model) throws CoreException;
+    protected abstract M detailEntity(Http.Request req, long entityId) throws CoreException;
 
-    protected void blockEntity(long entityId) throws CoreException {}
-    protected void unblockEntity(long entityId) throws CoreException {}
-    protected void removeEntity(long entityId) throws CoreException {}
-    protected List<Select2Form> searchEntities(String searchTerm) throws CoreException {
+    protected void blockEntity(Http.Request req, long entityId) throws CoreException {}
+    protected void unblockEntity(Http.Request req, long entityId) throws CoreException {}
+    protected void removeEntity(Http.Request req, long entityId) throws CoreException {}
+    protected List<Select2Form> searchEntities(Http.Request req, String searchTerm) throws CoreException {
         return Collections.emptyList();
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public CompletionStage<Result> list() {
-        Form<DataTableForm> form = this.formFactory.form(DataTableForm.class).bindFromRequest();
-        if (isNullOrHasError(form)) {
-            return CompletableFuture.completedFuture(badRequest(jsonError(Code.INVALID_FORM, form)));
-        }
-
-        DataTableForm model = form.get();
-
+    public CompletionStage<Result> list(Http.Request req) {
         return CompletableFuture.supplyAsync(() -> {
+            Form<DataTableForm> form = this.formFactory.form(DataTableForm.class).bindFromRequest(req);
+            if (isNullOrHasError(form))
+                return badRequest(jsonError(Code.INVALID_FORM, form));
+
+            DataTableForm model = form.get();
+
             DataTableResultForm result;
             try {
-                result = listEntities(model);
+                result = listEntities(req, model);
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -89,19 +89,17 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public CompletionStage<Result> create() {
-        List<Class<?>> groups = getModelCreateGroups();
-        Form<M> form = this.formFactory.form(getModelClass(), groups.toArray(new Class[groups.size()])).bindFromRequest();
-
-        if (isNullOrHasError(form))
-            return CompletableFuture.completedFuture(badRequest(jsonError(AController.Code.INVALID_FORM, form)));
-
-        M model = form.get();
-
+    public CompletionStage<Result> create(Http.Request req) {
         return CompletableFuture.supplyAsync(() -> {
+            List<Class<?>> groups = getModelCreateGroups();
+            Form<M> form = this.formFactory.form(getModelClass(), groups.toArray(new Class[groups.size()])).bindFromRequest(req);
+
+            if (isNullOrHasError(form))
+                return badRequest(jsonError(AController.Code.INVALID_FORM, form));
+
             Long entityId;
             try {
-                entityId = createEntity(model);
+                entityId = createEntity(req, form.get());
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -113,19 +111,16 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public CompletionStage<Result> update() {
-        List<Class<?>> groups = getModelUpdateGroups();
-        Form<M> form = this.formFactory.form(getModelClass(), groups.toArray(new Class[groups.size()])).bindFromRequest();
-        if (isNullOrHasError(form)) {
-            return CompletableFuture.completedFuture(badRequest(jsonError(AController.Code.INVALID_FORM, form)));
-        }
-
-        M model = form.get();
-
+    public CompletionStage<Result> update(Http.Request req) {
         return CompletableFuture.supplyAsync(() -> {
+            List<Class<?>> groups = getModelUpdateGroups();
+            Form<M> form = this.formFactory.form(getModelClass(), groups.toArray(new Class[groups.size()])).bindFromRequest(req);
+            if (isNullOrHasError(form))
+                return badRequest(jsonError(AController.Code.INVALID_FORM, form));
+
             Long entityId;
             try {
-                entityId = updateEntity(model);
+                entityId = updateEntity(req, form.get());
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -136,11 +131,11 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         }, this.context.current());
     }
 
-    public CompletionStage<Result> detail(long id) {
+    public CompletionStage<Result> detail(Http.Request req, long id) {
         return CompletableFuture.supplyAsync(() -> {
             M model;
             try {
-                model = detailEntity(id);
+                model = detailEntity(req, id);
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -151,10 +146,10 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         }, this.context.current());
     }
 
-    public CompletionStage<Result> block(long id) {
+    public CompletionStage<Result> block(Http.Request req, long id) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                blockEntity(id);
+                blockEntity(req, id);
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -162,10 +157,10 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         }, this.context.current());
     }
 
-    public CompletionStage<Result> unblock(long id) {
+    public CompletionStage<Result> unblock(Http.Request req, long id) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                unblockEntity(id);
+                unblockEntity(req, id);
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -173,10 +168,10 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         }, this.context.current());
     }
 
-    public CompletionStage<Result> remove(long id) {
+    public CompletionStage<Result> remove(Http.Request req, long id) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                removeEntity(id);
+                removeEntity(req, id);
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
@@ -184,11 +179,11 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         }, this.context.current());
     }
 
-    public CompletionStage<Result> search(String value) {
+    public CompletionStage<Result> search(Http.Request req, String value) {
         return CompletableFuture.supplyAsync(() -> {
             JsonNode json;
             try {
-                json = Json.toJson(searchEntities(value));
+                json = Json.toJson(searchEntities(req, value));
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }

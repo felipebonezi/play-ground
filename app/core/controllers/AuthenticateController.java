@@ -5,10 +5,12 @@ import core.forms.LoginForm;
 import play.cache.SyncCacheApi;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -17,21 +19,22 @@ import java.util.concurrent.CompletionStage;
 
 public abstract class AuthenticateController<T> extends AController {
 
+    @Inject
+    public HttpExecutionContext context;
+
     public AuthenticateController(FormFactory formFactory, SyncCacheApi cacheApi) {
         super(formFactory, cacheApi);
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public CompletionStage<Result> login() {
-        Form<LoginForm> form = this.formFactory.form(LoginForm.class).bindFromRequest();
-        if (isNullOrHasError(form)) {
-            return CompletableFuture.completedFuture(badRequest(jsonError(AController.Code.INVALID_FORM, form)));
-        }
-
-        LoginForm aModel = form.get();
-
+    public CompletionStage<Result> login(Http.Request req) {
         return CompletableFuture.supplyAsync(() -> {
-            T model = check(aModel);
+            Form<LoginForm> form = this.formFactory.form(LoginForm.class).bindFromRequest(req);
+            if (isNullOrHasError(form)) {
+                return badRequest(jsonError(AController.Code.INVALID_FORM, form));
+            }
+
+            T model = check(req, form.get());
 
             if (model == null)
                 return badRequest(jsonError(Code.UNAUTHORIZED));
@@ -51,10 +54,10 @@ public abstract class AuthenticateController<T> extends AController {
             json.put(Http.HeaderNames.AUTHORIZATION, jwt);
 
             return ok(json).withCookies(cookie);
-        });
+        }, this.context.current());
     }
 
-    protected abstract T check(LoginForm form);
+    protected abstract T check(Http.Request req, LoginForm form);
 
     protected void saveToken(T model, String token) {}
 

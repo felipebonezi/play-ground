@@ -174,9 +174,9 @@ public abstract class AController extends Controller {
         return jwtToken;
     }
 
-    public static UserSession getSession(SyncCacheApi cacheApi) {
-        Http.Headers headers = request().getHeaders();
-        String jwtToken = headers.get(Http.HeaderNames.AUTHORIZATION).orElse(null);
+    public static UserSession getSession(Http.Request req, SyncCacheApi cacheApi) {
+        Http.Headers headers = req.getHeaders();
+        String jwtToken = headers.get(Http.HeaderNames.AUTHORIZATION).orElse(StringUtil.EMPTY);
         jwtToken = removeBearer(jwtToken);
 
         String key = String.format(CacheContext.AUTH_USER, jwtToken);

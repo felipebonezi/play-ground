@@ -15,6 +15,7 @@ import play.mvc.Security;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 @Singleton
 public class AuthJWT extends Security.Authenticator {
@@ -37,21 +38,20 @@ public class AuthJWT extends Security.Authenticator {
     }
 
     @Override
-    public String getUsername(Http.Context context) {
-        String token = context.request().header(Http.HeaderNames.AUTHORIZATION).orElse(null);
+    public Optional<String> getUsername(Http.Request req) {
+        String token = req.header(Http.HeaderNames.AUTHORIZATION).orElse(null);
         if (Strings.isNullOrEmpty(token))
-            return null;
+            return Optional.empty();
 
-        UserSession session = AController.getSession(this.cacheApi);
-        if (session != null && this.validateWithDB != null && this.validateWithDB.isValid(session)) {
-            return session.name;
-        }
+        UserSession session = AController.getSession(req, this.cacheApi);
+        if (session == null || (this.validateWithDB != null && !this.validateWithDB.isValid(session)))
+            return Optional.empty();
 
-        return null;
+        return Optional.of(session.name);
     }
 
     @Override
-    public Result onUnauthorized(Http.Context context) {
+    public Result onUnauthorized(Http.Request req) {
         return AController.unauthorized(AController.jsonError(AController.Code.UNAUTHORIZED));
     }
 
