@@ -26,11 +26,11 @@ public class CoreErrorHandler extends DefaultHttpErrorHandler {
         super(config, environment, sourceMapper, routes);
     }
 
-    @Override
-    public CompletionStage<Result> onServerError(Http.RequestHeader request, Throwable exception) {
-        exception.printStackTrace();
-        return CompletableFuture.completedFuture(Results.badRequest(jsonError(Code.SERVER_ERROR, exception.getMessage())));
-    }
+//    @Override
+//    public CompletionStage<Result> onServerError(Http.RequestHeader request, Throwable exception) {
+//        exception.printStackTrace();
+//        return CompletableFuture.completedFuture(Results.badRequest(jsonError(Code.SERVER_ERROR, exception.getMessage())));
+//    }
 
     @Override
     protected CompletionStage<Result> onNotFound(Http.RequestHeader request, String message) {
