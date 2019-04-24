@@ -17,7 +17,7 @@ public class DataTableForm {
     @Constraints.Required
     public int start = 0;
 
-    @Constraints.Min(10)
+    @Constraints.Min(1)
     @Constraints.Required
     public int length = 10;
 

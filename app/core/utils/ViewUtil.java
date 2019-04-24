@@ -7,11 +7,16 @@ import java.util.Locale;
 
 public final class ViewUtil {
 
-    private static final Locale US = new Locale("en-US", "US");
-    private static final DecimalFormatSymbols DOLLAR = new DecimalFormatSymbols(US);
+    private static final Locale DEFAULT_LOCALE = new Locale("pt-BR", "BR");
+    private static final DecimalFormatSymbols DEFAULT_SYMBOL = new DecimalFormatSymbols(DEFAULT_LOCALE);
 
-    public static final java.text.DecimalFormat DEFAULT_DECIMAL_FORMAT = new java.text.DecimalFormat("¤ ###,###,##0.00", DOLLAR);
+    public static final java.text.DecimalFormat DEFAULT_DECIMAL_FORMAT;
     public static final java.text.DecimalFormat DEFAULT_PERCENT_FORMAT = new java.text.DecimalFormat("#,##0.00%");
+
+    static {
+        DEFAULT_SYMBOL.setCurrencySymbol("R$");
+        DEFAULT_DECIMAL_FORMAT = new java.text.DecimalFormat("¤ ###,###,##0.00", DEFAULT_SYMBOL);
+    }
 
     /**
      * Formata um valor financeiro para exibição na view
