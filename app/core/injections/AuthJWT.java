@@ -44,7 +44,7 @@ public class AuthJWT extends Security.Authenticator {
             return Optional.empty();
 
         UserSession session = AController.getSession(req, this.cacheApi);
-        if (session == null)
+        if (session == null || !this.validateWithDB.isValid(session))
             return Optional.empty();
 
         return Optional.of(session.name);

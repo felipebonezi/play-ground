@@ -180,7 +180,7 @@ public abstract class AController extends Controller {
         jwtToken = removeBearer(jwtToken);
 
         String key = String.format(CacheContext.AUTH_USER, jwtToken);
-        UserSession session = cacheApi.get(key);
+        UserSession session = (UserSession) cacheApi.getOptional(key).orElse(null);
 
         if (session == null) {
             Map<String, Claim> claims = getClaims(jwtToken);
