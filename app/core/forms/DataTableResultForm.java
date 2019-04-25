@@ -6,12 +6,12 @@ public class DataTableResultForm {
 
     public int recordsTotal;
     public int recordsFiltered;
-    public ArrayNode array;
+    public ArrayNode data;
 
-    public DataTableResultForm(Integer recordsTotal, Integer recordsFiltered, ArrayNode array) {
+    public DataTableResultForm(Integer recordsTotal, Integer recordsFiltered, ArrayNode data) {
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsFiltered;
-        this.array = array;
+        this.data = data;
     }
 
 }

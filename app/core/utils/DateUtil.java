@@ -197,4 +197,10 @@ public final class DateUtil {
         return LocalTime.parse(time, DateTimeFormat.forPattern(pattern));
     }
 
+    public static boolean isDate(String candidate, String pattern) {
+        try {
+            return parseDate(candidate, pattern) != null;
+        } catch (Exception ignored) {}
+        return false;
+    }
 }

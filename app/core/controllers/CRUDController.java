@@ -84,7 +84,7 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
             } catch (CoreException e) {
                 return badRequest(jsonError(e.getCode(), e.getMessage()));
             }
-            return ok(jsonAsDataTable(model, result.recordsTotal, result.recordsFiltered, result.array));
+            return ok(jsonAsDataTable(model, result.recordsTotal, result.recordsFiltered, result.data));
         }, this.context.current());
     }
 
