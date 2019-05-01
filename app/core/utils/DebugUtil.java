@@ -10,7 +10,7 @@ public final class DebugUtil {
     /**
      * Tag default do log.
      */
-    public static final String DEFAULT_TAG = "REVOBOT";
+    public static final String DEFAULT_TAG = "EDS";
 
     /**
      * Padrão default do log.
