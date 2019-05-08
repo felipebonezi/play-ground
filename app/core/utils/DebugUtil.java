@@ -10,7 +10,7 @@ public final class DebugUtil {
     /**
      * Tag default do log.
      */
-    public static final String DEFAULT_TAG = "EDS";
+    public static final String DEFAULT_TAG = "CORE";
 
     /**
      * Padrão default do log.
