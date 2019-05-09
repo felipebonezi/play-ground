@@ -3,12 +3,12 @@ Core classes &amp; models to re-use on your [Play! Framework](https://playframew
 
 ### Dependencies
 
-  - [PlayFramework Core](https://github.com/ehureka/playframework-core)
+  - [PlayFramework Core](https://github.com/justapagamentos/playframework-core)
   - [jBCrypt](https://www.mindrot.org/projects/jBCrypt/)
 
 ### Installation
 
-This project requires [Play! Framework](https://playframework.com/) v2.6.20 to run.
+This project requires [Play! Framework](https://playframework.com/) v2.7.0 to run.
 
 Install the dependencies and devDependencies and start the server at default port (9000).
 
