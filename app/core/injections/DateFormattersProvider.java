@@ -30,6 +30,71 @@ public class DateFormattersProvider implements Provider<Formatters> {
     @Override
     public Formatters get() {
         Formatters formatters = new Formatters(this.messagesApi);
+        registerJavaTime(formatters);
+        registerJodaTime(formatters);
+        return formatters;
+    }
+
+    private void registerJodaTime(Formatters formatters) {
+        formatters.register(org.joda.time.LocalDate.class, new SimpleFormatter<org.joda.time.LocalDate>() {
+
+            private Pattern timePattern = Pattern.compile(
+                    "(\\d{4})-(\\d{2})-(\\d{2})?"
+            );
+
+            @Override
+            public org.joda.time.LocalDate parse(String input, Locale l) throws ParseException {
+                try {
+                    Matcher m = timePattern.matcher(input);
+                    if (!m.find()) throw new ParseException("Invalid Date", 0);
+                    int day = Integer.valueOf(m.group(3));
+                    int month = Integer.valueOf(m.group(2));
+                    int year = Integer.valueOf(m.group(1));
+                    return new org.joda.time.LocalDate(year, month, day);
+                } catch (Exception e) {
+                    throw new ParseException(String.format("Unknonw error: %s", e.getMessage()), 0);
+                }
+
+            }
+
+            @Override
+            public String print(org.joda.time.LocalDate localDate, Locale l) {
+                return DateUtil.format(localDate, DateUtil.DEFAULT_DATE_PATTERN);
+            }
+
+        });
+        formatters.register(org.joda.time.DateTime.class, new SimpleFormatter<org.joda.time.DateTime>() {
+
+            private Pattern timePattern = Pattern.compile(
+                    "(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2})?"
+            );
+
+            @Override
+            public org.joda.time.DateTime parse(String input, Locale l) throws ParseException {
+                try {
+                    Matcher m = timePattern.matcher(input);
+                    if (!m.find()) throw new ParseException("Invalid Date", 0);
+                    int day = Integer.valueOf(m.group(3));
+                    int month = Integer.valueOf(m.group(2));
+                    int year = Integer.valueOf(m.group(1));
+                    int hour = Integer.valueOf(m.group(4));
+                    int minutes = Integer.valueOf(m.group(5));
+                    return new org.joda.time.DateTime(year, month, day, hour, minutes);
+                } catch (Exception e) {
+                    throw new ParseException(String.format("Unknonw error: %s", e.getMessage()), 0);
+                }
+
+            }
+
+            @Override
+            public String print(org.joda.time.DateTime dateTime, Locale l) {
+                return DateUtil.format(dateTime, DateUtil.DEFAULT_DATE_TIME_PATTERN);
+            }
+
+        });
+    }
+
+    private void registerJavaTime(Formatters formatters) {
         formatters.register(LocalDate.class, new SimpleFormatter<LocalDate>() {
 
             private Pattern timePattern = Pattern.compile(
@@ -82,7 +147,5 @@ public class DateFormattersProvider implements Provider<Formatters> {
             }
 
         });
-
-        return formatters;
     }
 }
