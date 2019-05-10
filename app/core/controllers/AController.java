@@ -49,6 +49,7 @@ public abstract class AController extends Controller {
         public static final int SERVER_ERROR = 998;
         public static final int NOT_FOUND = 997;
         public static final int INVALID_FORM = 996;
+        public static final int UNKNOWN = 995;
     }
 
     public static final class CacheContext {
