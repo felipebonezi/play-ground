@@ -47,7 +47,7 @@ public class DataTableForm {
     }
 
     public String getOrderBy(String defaultOrder) {
-        return this.orders != null && !this.orders.isEmpty() ? String.join(StringUtil.COMMA, this.orders.stream().map(o -> o.dir).collect(Collectors.toList())) : defaultOrder;
+        return this.orders != null && !this.orders.isEmpty() ? this.orders.stream().map(o -> o.dir).collect(Collectors.joining(StringUtil.COMMA)) : defaultOrder;
     }
 
 }
