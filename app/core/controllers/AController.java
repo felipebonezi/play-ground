@@ -194,7 +194,7 @@ public abstract class AController extends Controller {
         return session;
     }
 
-    public void removeSession(SyncCacheApi cacheApi, String jwtToken) {
+    public static void removeSession(SyncCacheApi cacheApi, String jwtToken) {
         String key = String.format(CacheContext.AUTH_USER, jwtToken);
         cacheApi.remove(key);
     }
