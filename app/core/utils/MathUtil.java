@@ -73,4 +73,17 @@ public final class MathUtil {
         return (int)(fraction + start);
     }
 
+    /**
+     * Transforma uma String em um Integer.
+     * Se der algum erro é retornado zero
+     * @param valueStr String do Valor
+     * @return Inteiro ou null
+     */
+    public static Integer convertIntegerStr(String valueStr) {
+        try {
+            return Integer.valueOf(valueStr);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
