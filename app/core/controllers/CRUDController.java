@@ -69,7 +69,6 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
         return Collections.emptyList();
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
     public CompletionStage<Result> list(Http.Request req) {
         return CompletableFuture.supplyAsync(() -> {
             Form<DataTableForm> form = this.formFactory.form(DataTableForm.class).bindFromRequest(req);
