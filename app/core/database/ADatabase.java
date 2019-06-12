@@ -81,8 +81,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
         if (!Strings.isNullOrEmpty(orderBy))
             query.orderBy(orderBy);
 
-        List<T> list = query.findList();
-        return list.isEmpty() ? null : list.get(0);
+        return query.setMaxRows(1).findOne();
     }
 
     @Override
