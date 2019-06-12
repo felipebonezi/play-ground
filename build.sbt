@@ -1,6 +1,7 @@
 name := "play-core"
 version := "0.2"
 organization := "justa.com.vc"
+maintainer := "ajuda@justa.com.vc"
 
 scalacOptions ++= Seq("-feature")
 javacOptions in compile ++= Seq("-Xlint:deprecation")
