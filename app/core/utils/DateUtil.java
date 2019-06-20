@@ -62,6 +62,7 @@ public final class DateUtil {
      */
     public static final String DATE_HOUR_WITHOUT_SECONDS_PATTERN_BR = "dd/MM/yyyy HH:mm";
     public static final String DATE_HOUR_WITHOUT_SECONDS_PATTERN_BR_SHORT = "dd/MM/yy HH";
+    public static final String DATE_HOUR_SHORT_WITHOUT_SECONDS_PATTERN_BR = "dd/MM/yy HH:mm";
     public static final String PATTERN_EEEEE = "EEEEE";
     public static final String DEFAULT_TIME_PATTERN = "HH:mm";
 
