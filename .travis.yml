@@ -6,7 +6,7 @@ install: true
  
 script:
 - sbt test
-- sbt dist
+- mvn deploy
 
 cache:
   directories:
