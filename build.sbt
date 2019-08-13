@@ -1,5 +1,5 @@
 name := "playframework-core"
-version := "0.2"
+version := "0.3"
 organization := "justa.com.vc"
 maintainer := "it@justa.com.vc"
 
