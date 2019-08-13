@@ -3,7 +3,11 @@ jdk:
   - openjdk8
 
 install: true
- 
+
+branches:
+  only:
+    - master
+
 script:
 - sbt test
 - sbt dist
