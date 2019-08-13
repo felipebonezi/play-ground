@@ -18,3 +18,5 @@ server.pid
 .idea
 /.idea/
 /.idea
+.gradle
+gradle

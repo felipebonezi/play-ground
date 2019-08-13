@@ -1,14 +1,14 @@
-name := "play-core"
-version := "0.2"
+name := "playframework-core"
+version := "0.3"
 organization := "justa.com.vc"
-maintainer := "ajuda@justa.com.vc"
+maintainer := "it@justa.com.vc"
 
 scalacOptions ++= Seq("-feature")
 javacOptions in compile ++= Seq("-Xlint:deprecation")
 publishArtifact in (Compile, packageDoc) := false
-resolvers += Resolver.mavenLocal
 
-lazy val core = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
+lazy val core = (project in file("."))
+  .enablePlugins(PlayJava, PlayEbean)
 
 scalaVersion := "2.12.8"
 
@@ -22,3 +22,6 @@ libraryDependencies ++= Seq(
   "com.auth0" % "java-jwt" % "3.3.0"
 )
 
+// Bintray Configuration
+bintrayOrganization := Some("justa")
+licenses += ("Apache-2.0", url("https://opensource.org/licenses/Apache-2.0"))

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/justapagamentos/playframework-core.svg?branch=master)](https://travis-ci.com/justapagamentos/playframework-core)
+
 # playframework-core
 Core classes &amp; models to re-use on your [Play! Framework](https://playframework.com/) project.
 
