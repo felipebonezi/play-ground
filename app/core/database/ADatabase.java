@@ -78,6 +78,9 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
         if (expression != null)
             query.where(expression);
 
+        if (!Strings.isNullOrEmpty(fields))
+            query.select(fields);
+
         if (!Strings.isNullOrEmpty(orderBy))
             query.orderBy(orderBy);
 
