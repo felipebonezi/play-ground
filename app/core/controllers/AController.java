@@ -10,6 +10,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
+import core.auth.JWTValidateWithDB;
 import core.auth.UserSession;
 import core.forms.binders.datatable.DataTableForm;
 import core.injections.AuthJWT;
@@ -175,23 +176,29 @@ public abstract class AController extends Controller {
         return jwtToken;
     }
 
-    public static UserSession getSession(Http.Request req, SyncCacheApi cacheApi) {
+    static UserSession getSession(Http.Request req, SyncCacheApi cacheApi) {
+        return getSession(req, null, cacheApi);
+    }
+
+    public static UserSession getSession(Http.Request req, JWTValidateWithDB validateWithDB, SyncCacheApi cacheApi) {
         Http.Headers headers = req.getHeaders();
         String jwtToken = headers.get(Http.HeaderNames.AUTHORIZATION).orElse(StringUtil.EMPTY);
         jwtToken = removeBearer(jwtToken);
 
         String key = String.format(CacheContext.AUTH_USER, jwtToken);
-        UserSession session = (UserSession) cacheApi.getOptional(key).orElse(null);
+        UserSession sessionCached = (UserSession) cacheApi.getOptional(key).orElse(null);
 
-        if (session == null) {
-            Map<String, Claim> claims = getClaims(jwtToken);
-            session = SessionUtil.parse(claims);
-
-            if (session != null)
-                cacheApi.set(key, session, CacheContext.Expiration.THIRD_MINUTES);
+        if (sessionCached != null && validateWithDB != null && !validateWithDB.isValid(sessionCached)) {
+            return null;
         }
 
-        return session;
+        Map<String, Claim> claims = getClaims(jwtToken);
+        UserSession newSession = SessionUtil.parse(claims);
+
+        if (newSession != null)
+            cacheApi.set(key, newSession, CacheContext.Expiration.THIRD_MINUTES);
+
+        return newSession;
     }
 
     public static void removeSession(SyncCacheApi cacheApi, String jwtToken) {
