@@ -4,14 +4,16 @@ jdk:
 
 install: true
 
+os:
+  - linux
+
 branches:
   only:
     - master
 
 script:
 - sbt test
-- sbt dist
-- sbt -Dbintray.user=$BINTRAY_USER -Dbintray.pass=$BINTRAY_PASS publish
+- sbt publishLocal
 
 cache:
   directories:
@@ -20,8 +22,8 @@ cache:
     
 before_cache:
   - rm -rf $HOME/.ivy2/local
-  - rm -rf $HOME/.ivy2/cache/com.typesafe.play/*
-  - rm -rf $HOME/.ivy2/cache/scala_*/sbt_*/com.typesafe.play/*
+  - rm -rf $HOME/.ivy2/cache/justa.com.vc/*
+  - rm -rf $HOME/.ivy2/cache/scala_*/sbt_*/justa.com.vc/*
   - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
   - find $HOME/.sbt  -name "*.lock"               -delete
 
