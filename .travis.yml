@@ -1,33 +1,26 @@
-language: java
-jdk:
-  - openjdk8
-
-install: true
+language: scala
+scala:
+    - 2.13.3
 
 os:
   - linux
 
-branches:
-  only:
-    - master
+jdk:
+  - oraclejdk8
 
 script:
-- sbt test
-- sbt publishLocal
+  - sbt +publishLocal
 
 cache:
   directories:
-    - "$HOME/.ivy2/cache"
-    - "$HOME/.sbt"
-    
-before_cache:
-  - rm -rf $HOME/.ivy2/local
-  - rm -rf $HOME/.ivy2/cache/justa.com.vc/*
-  - rm -rf $HOME/.ivy2/cache/scala_*/sbt_*/justa.com.vc/*
-  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
-  - find $HOME/.sbt  -name "*.lock"               -delete
+    - $HOME/.ivy2/cache
 
-notifications:
-  email:
-    recipients:
-      - it-recife@justa.com.vc
+before_cache:
+  # Ensure changes to the cache aren't persisted
+  - rm -rf $HOME/.ivy2/cache/justa.com.vc
+  - rm -rf $HOME/.ivy2/cache/scala_*/sbt_*/justa.com.vc
+  - rm -rf $HOME/.ivy2/cache/com.github.justapagamentos
+  - rm -rf $HOME/.ivy2/cache/scala_*/sbt_*/com.github.justapagamentos
+
+  # Delete all ivy data files since ivy touches them on each build
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" | xargs rm
