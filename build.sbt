@@ -1,5 +1,5 @@
 name := "playframework-core"
-version := "1.0.0"
+version := "1.1.0"
 organization := "justa.com.vc"
 maintainer := "it@justa.com.vc"
 
@@ -10,7 +10,8 @@ publishArtifact in (Compile, packageDoc) := false
 lazy val core = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.4"
+crossScalaVersions := Seq("2.13.4", "2.12.13")
 
 libraryDependencies ++= Seq(
   javaWs,
