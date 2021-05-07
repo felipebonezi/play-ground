@@ -45,6 +45,6 @@ checkstyleConfigLocation := CheckstyleConfigLocation.File("conf/checkstyle/check
 //(checkstyle in Test) := (checkstyle in Test).triggeredBy(compile in Test).value
 
 // GitHub Packages config.
-githubOwner := "tech_justa"
+githubOwner := "justapagamentos"
 githubRepository := "playframework-core"
 githubTokenSource := TokenSource.GitConfig("github.token")
