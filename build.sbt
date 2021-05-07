@@ -43,3 +43,8 @@ checkstyleSeverityLevel := Some(CheckstyleSeverityLevel.Info)
 checkstyleConfigLocation := CheckstyleConfigLocation.File("conf/checkstyle/checkstyle-config.xml")
 //(checkstyle in Compile) := (checkstyle in Compile).triggeredBy(compile in Compile).value
 //(checkstyle in Test) := (checkstyle in Test).triggeredBy(compile in Test).value
+
+// GitHub Packages config.
+githubOwner := "tech_justa"
+githubRepository := "playframework-core"
+githubTokenSource := TokenSource.GitConfig("github.token")

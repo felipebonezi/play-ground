@@ -32,3 +32,7 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.7.3")
 // See more: https://github.com/etsy/sbt-checkstyle-plugin
 addSbtPlugin("com.etsy"                       % "sbt-checkstyle-plugin" % "3.1.1")
 dependencyOverrides += "com.puppycrawl.tools" % "checkstyle"            % "8.41.1"
+
+// GitHub Packages plugin.
+// See more: https://dev.to/gjuoun/publish-your-scala-library-to-github-packages-4p80
+addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.2")
