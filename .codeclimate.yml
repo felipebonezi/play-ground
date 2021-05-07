@@ -1,0 +1,8 @@
+# Code Climate configuration
+# ~~
+# This file is used only for local validations over Code Climate CLI.
+# See more: https://github.com/codeclimate/codeclimate
+version: "2"         # required to adjust maintainability checks
+plugins:
+  scalastyle:
+    enabled: false

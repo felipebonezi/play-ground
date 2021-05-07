@@ -1,15 +1,34 @@
-// The Play plugin
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.7")
+/*
+ * Copyright (C) 2018-2021 Justa Serviços Financeiros LTDA.
+ * See the LICENCE.txt file distributed with this work for additional
+ * information regarding copyright ownership.
+ */
 
-// Play enhancer - this automatically generates getters/setters for public fields
-// and rewrites accessors of these fields to use the getters/setters. Remove this
-// plugin if you prefer not to have this feature, or disable on a per project
-// basis using disablePlugins(PlayEnhancer) in your build.sbt
-addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.2.2")
+// Play Framework
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.8")
 
-// Play Ebean support, to enable, uncomment this line, and enable in your build.sbt using
-// enablePlugins(PlayEbean).
+// Ebean plugin for play framework
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-ebean" % "6.0.0")
 
-// Play plugin to publish in Bintray using SBT.
-addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.4")
+// Visualize your project's dependencies.
+// `dependencyTree`: Shows an ASCII tree representation of the project's dependencies
+// `dependencyBrowseTree`: Opens a browser window with a visualization of
+// the dependency tree (courtesy of jstree).
+// See more: https://github.com/sbt/sbt-dependency-graph
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.10.0-RC1")
+
+// Code formatter for Scala.
+// See more: https://github.com/scalameta/sbt-scalafmt
+// Oficial Website: https://scalameta.org/scalafmt/
+addSbtPlugin("org.scalameta"   % "sbt-scalafmt"          % "2.4.2")
+addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
+
+// Test Coverage plugin.
+// sbt-scoverage is a plugin for SBT that integrates the scoverage code coverage library.
+// See more: https://github.com/scoverage/sbt-scoverage
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.7.3")
+
+// Java Checkstyle plugin.
+// See more: https://github.com/etsy/sbt-checkstyle-plugin
+addSbtPlugin("com.etsy"                       % "sbt-checkstyle-plugin" % "3.1.1")
+dependencyOverrides += "com.puppycrawl.tools" % "checkstyle"            % "8.41.1"
