@@ -1,0 +1,8 @@
+# Labels.
+"Type: Feature": [ 'feature/*', 'feat/*' ]
+"Type: Bug": [ 'bug/*', 'bugfix/*', 'fix/*' ]
+"Type: Hotfix": [ 'hotfix/*', 'hot/*' ]
+"Type: Release": [ 'release/*', 'rel/*' ]
+"Type: Doc": [ 'docs/*', 'doc/*' ]
+"Type: Enhancement": [ 'enhancement/*', 'enhance/*' ]
+"Type: Maintenance": [ 'maintenance/*', 'robot/*', 'devops/*', 'update/*' ]
