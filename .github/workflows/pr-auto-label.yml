@@ -1,0 +1,13 @@
+name: PR Auto Label
+on:
+  pull_request:
+    types: [ opened ]
+jobs:
+  pr-labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: TimonVS/pr-labeler-action@v3
+        with:
+          configuration-path: .github/pr-auto-label.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
