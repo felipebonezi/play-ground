@@ -1,6 +1,7 @@
 language: scala
 scala:
-    - 2.13.3
+  - 2.13.3
+  - 2.12.13
 
 os:
   - linux
@@ -9,7 +10,7 @@ jdk:
   - oraclejdk11
 
 script:
-  - sbt +publishLocal
+  - sbt ++$TRAVIS_SCALA_VERSION clean compile test
 
 cache:
   directories:

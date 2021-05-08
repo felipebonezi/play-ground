@@ -16,5 +16,7 @@ jobs:
         run: git config --global github.token $TOKEN
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish package
-        run: sbt publish
+      - name: Publish package (++2.13.5)
+        run: sbt ++2.13.5 publish
+      - name: Publish package (++2.12.13)
+        run: sbt ++2.12.13 publish
