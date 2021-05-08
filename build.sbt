@@ -47,4 +47,5 @@ checkstyleConfigLocation := CheckstyleConfigLocation.File("conf/checkstyle/check
 // GitHub Packages config.
 githubOwner := "justapagamentos"
 githubRepository := "playframework-core"
-githubTokenSource := TokenSource.GitConfig("github.token")
+githubTokenSource :=
+  TokenSource.Environment("GITHUB_TOKEN") || TokenSource.GitConfig("github.token")
