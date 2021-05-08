@@ -15,7 +15,6 @@ sources in (Compile, doc) := Seq.empty
 routesGenerator := InjectedRoutesGenerator
 fork in run := true
 
-scalaVersion := "2.13.5"
 crossScalaVersions := Seq("2.13.5", "2.12.13")
 
 // Docker config.
