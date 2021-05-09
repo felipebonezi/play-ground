@@ -1,11 +1,12 @@
 # playframework-core
 
 [![Build Status](https://travis-ci.com/justapagamentos/playframework-core.svg?branch=master)](https://travis-ci.com/justapagamentos/playframework-core)
-[![Version](https://img.shields.io/github/v/release/justapagamentos/playframework-core?logo=java)](https://github.com/justapagamentos/playframework-core/releases)
-[![Licence](https://img.shields.io/github/license/justapagamentos/playframework-core?color=blue)](https://github.com/justapagamentos/playframework-core/blob/master/LICENSE)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/6d599db3c285d692df8a/maintainability)](https://codeclimate.com/github/justapagamentos/playframework-core/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6d599db3c285d692df8a/test_coverage)](https://codeclimate.com/github/justapagamentos/playframework-core/test_coverage)
+
+[![CLA assistant](https://cla-assistant.io/readme/badge/justapagamentos/playframework-core)](https://cla-assistant.io/justapagamentos/playframework-core)
+[![Version](https://img.shields.io/github/v/release/justapagamentos/playframework-core?logo=java)](https://github.com/justapagamentos/playframework-core/releases)
+[![Licence](https://img.shields.io/github/license/justapagamentos/playframework-core?color=blue)](https://github.com/justapagamentos/playframework-core/blob/master/LICENSE)
 
 Core classes &amp; models to re-use on your [Play! Framework](https://playframework.com/) project.
 
