@@ -20,7 +20,7 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.10.0-RC1")
 // Code formatter for Scala.
 // See more: https://github.com/scalameta/sbt-scalafmt
 // Oficial Website: https://scalameta.org/scalafmt/
-addSbtPlugin("org.scalameta"   % "sbt-scalafmt"          % "2.4.2")
+addSbtPlugin("org.scalameta"   % "sbt-scalafmt"          % "2.4.6")
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 
 // Test Coverage plugin.
