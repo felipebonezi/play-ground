@@ -35,4 +35,4 @@ dependencyOverrides += "com.puppycrawl.tools" % "checkstyle"            % "8.41.
 
 // GitHub Packages plugin.
 // See more: https://dev.to/gjuoun/publish-your-scala-library-to-github-packages-4p80
-addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.2")
+addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.3")
