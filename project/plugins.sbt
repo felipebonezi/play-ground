@@ -26,7 +26,7 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 // Test Coverage plugin.
 // sbt-scoverage is a plugin for SBT that integrates the scoverage code coverage library.
 // See more: https://github.com/scoverage/sbt-scoverage
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.7.3")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
 
 // Java Checkstyle plugin.
 // See more: https://github.com/etsy/sbt-checkstyle-plugin
