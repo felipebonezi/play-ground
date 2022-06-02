@@ -4,5 +4,5 @@
 "Type: Hotfix": [ 'hotfix/*', 'hot/*' ]
 "Type: Release": [ 'release/*', 'rel/*' ]
 "Type: Doc": [ 'docs/*', 'doc/*' ]
-"Type: Enhancement": [ 'enhancement/*', 'enhance/*' ]
-"Type: Maintenance": [ 'maintenance/*', 'robot/*', 'devops/*', 'update/*' ]
+"Type: Enhancement": [ 'enhancement/*', 'enhance/*', 'chore/*' ]
+"Type: Maintenance": [ 'maintenance/*', 'robot/*', 'devops/*', 'update/*', 'renovate/*' ]
