@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     container: mozilla/sbt:11.0.8_1.3.13
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set GitHub token
         run: git config --global github.token $TOKEN
         env:
