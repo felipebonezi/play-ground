@@ -2,7 +2,6 @@ package core.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import core.auth.UserSession;
 import core.exceptions.CoreException;
 import core.forms.DataTableResultForm;
 import core.forms.Select2Form;
@@ -11,6 +10,13 @@ import core.forms.binders.datatable.DataTableForm;
 import core.forms.validations.CreateGroup;
 import core.forms.validations.UpdateGroup;
 import io.ebean.Model;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import javax.inject.Inject;
+import javax.validation.groups.Default;
 import play.cache.SyncCacheApi;
 import play.data.Form;
 import play.data.FormFactory;
@@ -20,17 +26,7 @@ import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import javax.inject.Inject;
-import javax.validation.groups.Default;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-
 public abstract class CRUDController<K extends Model, M extends UpdateForm> extends AController {
-
-    private static final String TAG = "CRUDController";
 
     private static final class Parameter {
         static final String ID = "id";
@@ -39,13 +35,9 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
 
     @Inject
     public HttpExecutionContext context;
-
-    public CRUDController(FormFactory formFactory, SyncCacheApi cacheApi) {
+    
+    protected CRUDController(FormFactory formFactory, SyncCacheApi cacheApi) {
         super(formFactory, cacheApi);
-    }
-
-    public UserSession getSession(Http.Request req) {
-        return getSession(req, this.cacheApi);
     }
 
     protected List<Class<?>> getModelCreateGroups() {
@@ -62,11 +54,17 @@ public abstract class CRUDController<K extends Model, M extends UpdateForm> exte
     protected abstract Long updateEntity(Http.Request req, M model) throws CoreException;
     protected abstract M detailEntity(Http.Request req, long entityId) throws CoreException;
 
-    protected void blockEntity(Http.Request req, long entityId) throws CoreException {}
-    protected void unblockEntity(Http.Request req, long entityId) throws CoreException {}
-    protected void removeEntity(Http.Request req, long entityId) throws CoreException {}
+    protected void blockEntity(Http.Request req, long entityId) throws CoreException {
+        throw new CoreException(Code.SERVER_ERROR, "Not implemented.");
+    }
+    protected void unblockEntity(Http.Request req, long entityId) throws CoreException {
+        throw new CoreException(Code.SERVER_ERROR, "Not implemented.");
+    }
+    protected void removeEntity(Http.Request req, long entityId) throws CoreException {
+        throw new CoreException(Code.SERVER_ERROR, "Not implemented.");
+    }
     protected List<Select2Form> searchEntities(Http.Request req, String searchTerm) throws CoreException {
-        return Collections.emptyList();
+        throw new CoreException(Code.SERVER_ERROR, "Not implemented.");
     }
 
     public CompletionStage<Result> list(Http.Request req) {

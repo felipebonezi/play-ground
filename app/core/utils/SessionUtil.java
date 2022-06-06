@@ -6,10 +6,10 @@ import core.auth.UserSession;
 import java.util.Map;
 
 public final class SessionUtil {
+    private SessionUtil() {}
 
     public static UserSession parse(Map<String, Claim> claims) {
-        if (claims == null
-                || claims.isEmpty()
+        if (claims.isEmpty()
                 || !claims.containsKey("user.id")
                 || !claims.containsKey("user.name")
                 || !claims.containsKey("user.auth_token")
