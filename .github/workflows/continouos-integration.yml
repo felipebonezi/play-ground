@@ -29,6 +29,11 @@ jobs:
           java-version: ${{ matrix.jdk }}
           cache: 'sbt'
 
+      - name: Set GitHub token
+        run: git config --global github.token $TOKEN
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Check ScalaFmt
         run: sbt ++${{ matrix.scala }} scalafmtSbtCheck scalafmtCheck Test/scalafmtCheck
 
@@ -77,6 +82,11 @@ jobs:
         distribution: corretto
         java-version: ${{ matrix.jdk }}
         cache: 'sbt'
+
+    - name: Set GitHub token
+      run: git config --global github.token $TOKEN
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Perform Build / Test
       run: sbt ++${{ matrix.scala }} compile test
