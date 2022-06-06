@@ -1,62 +1,33 @@
 package core.injections;
 
-import com.auth0.jwt.algorithms.Algorithm;
-import com.google.common.base.Strings;
-import com.typesafe.config.Config;
-import core.auth.JWTValidateWithDB;
-import core.auth.UserSession;
+import core.auth.session.impl.JwtSessionManager;
 import core.controllers.AController;
-import core.utils.DebugUtil;
-import play.cache.SyncCacheApi;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.mvc.Security;
-
+import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.UnsupportedEncodingException;
-import java.util.Optional;
+import play.mvc.Http;
+import play.mvc.Result;
+import play.mvc.Results;
+import play.mvc.Security;
 
 @Singleton
 public class AuthJWT extends Security.Authenticator {
-
-    private static Algorithm JWT_ALGORITHM;
-    private final SyncCacheApi cacheApi;
-    private final JWTValidateWithDB validateWithDB;
-
+    
+    private final JwtSessionManager jwtSessionManager;
+    
     @Inject
-    public AuthJWT(Config config, SyncCacheApi cacheApi, JWTValidateWithDB validateWithDB) {
-        this.cacheApi = cacheApi;
-        this.validateWithDB = validateWithDB;
-
-        String jwtSecret = config.getString("play.jwt.secret.key");
-        try {
-            JWT_ALGORITHM = Algorithm.HMAC256(jwtSecret);
-        } catch (UnsupportedEncodingException e) {
-            DebugUtil.e(e);
-        }
+    public AuthJWT(JwtSessionManager jwtSessionManager) {
+        this.jwtSessionManager = jwtSessionManager;
     }
-
+    
     @Override
     public Optional<String> getUsername(Http.Request req) {
-        String token = req.header(Http.HeaderNames.AUTHORIZATION).orElse(null);
-        if (Strings.isNullOrEmpty(token))
-            return Optional.empty();
-
-        UserSession session = AController.getSession(req, this.validateWithDB, this.cacheApi);
-        if (session == null)
-            return Optional.empty();
-
-        return Optional.of(session.name);
+        return this.jwtSessionManager.getSession(req).map(s -> s.name);
     }
 
     @Override
     public Result onUnauthorized(Http.Request req) {
-        return AController.unauthorized(AController.jsonError(AController.Code.UNAUTHORIZED));
-    }
-
-    public static Algorithm getJwtAlgorithm() {
-        return JWT_ALGORITHM;
+        return Results.unauthorized(AController.jsonError(AController.Code.UNAUTHORIZED));
     }
 
 }
