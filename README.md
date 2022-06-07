@@ -1,6 +1,8 @@
 # playframework-core
 
 [![CI](https://github.com/felipebonezi/playframework-core/actions/workflows/continouos-integration.yml/badge.svg)](https://github.com/felipebonezi/playframework-core/actions/workflows/continouos-integration.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/56ea88cd8146afd188c0/maintainability)](https://codeclimate.com/github/felipebonezi/playframework-core/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/56ea88cd8146afd188c0/test_coverage)](https://codeclimate.com/github/felipebonezi/playframework-core/test_coverage)
 [![Version](https://img.shields.io/github/v/release/felipebonezi/playframework-core?logo=java)](https://github.com/felipebonezi/playframework-core/releases)
 [![CLA assistant](https://cla-assistant.io/readme/badge/felipebonezi/playframework-core)](https://cla-assistant.io/felipebonezi/playframework-core)
 [![Licence](https://img.shields.io/github/license/felipebonezi/playframework-core?color=blue)](https://github.com/felipebonezi/playframework-core/blob/main/LICENSE)
