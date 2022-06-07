@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2018-2021 Justa Serviços Financeiros LTDA.
+ *  Copyright (C) 2018-2022 Felipe Bonezi <https://about.me/felipebonezi>.
  *  See the LICENCE.txt file distributed with this work for additional
  *  information regarding copyright ownership.
  */
@@ -14,7 +14,7 @@ import sbt.Def
 import sbt._
 import sbt.plugins.JvmPlugin
 
-object PlayJusta extends AutoPlugin {
+object PlayCore extends AutoPlugin {
   private lazy val conf: Config = ConfigFactory.parseFile(new File("conf/reference.conf"))
 
   override def trigger: PluginTrigger = allRequirements

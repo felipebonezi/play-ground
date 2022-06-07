@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Justa Serviços Financeiros LTDA.
+ * Copyright (C) 2018-2022 Felipe Bonezi <https://about.me/felipebonezi>.
  * See the LICENCE.txt file distributed with this work for additional
  * information regarding copyright ownership.
  */

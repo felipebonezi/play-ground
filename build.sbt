@@ -12,7 +12,7 @@ maintainer := conf.getString("play.app.maintainer")
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
-  .enablePlugins(PlayJusta, Dependencies)
+  .enablePlugins(PlayCore, Dependencies)
   .enablePlugins(DockerPlugin, AshScriptPlugin)
 
 sources in (Compile, doc) := Seq.empty
