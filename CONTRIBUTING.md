@@ -1,9 +1,6 @@
-<!--- Copyright (C) Justa Serviços Financeiros SA. <https://www.justa.com.vc> -->
+<!--- Copyright (C) Felipe Bonezi. <https://about.me/felipebonezi> -->
 
-# Justa contributor guidelines
-
-The canonical version of this document can be found on
-the [Justa contributor guidelines](https://justa.com.vc/contributing) page of the Justa website.
+# Contributor guidelines
 
 ## Prerequisites
 
@@ -14,13 +11,13 @@ discussion.
 
 Additionally, there are issues labels you can use to navigate issues that a good start to contribute:
 
-- [`Status: Need Help!`](https://github.com/justapagamentos/playframework-core/labels/Status%3A%20Need%20Help%21)
-- [`Type: Community`](https://github.com/justapagamentos/playframework-core/labels/Type%3A%20Community)
-- [`Type: Good First Issue`](https://github.com/justapagamentos/playframework-core/labels/Type%3A%20Good%20First%20Issue)
+- [`Status: Need Help!`](https://github.com/felipebonezi/playframework-core/labels/Status%3A%20Need%20Help%21)
+- [`Type: Community`](https://github.com/felipebonezi/playframework-core/labels/Type%3A%20Community)
+- [`Type: Good First Issue`](https://github.com/felipebonezi/playframework-core/labels/Type%3A%20Good%20First%20Issue)
 
 ### Procedure
 
-1. Make sure you have signed the [Justa CLA](https://cla-assistant.io/justapagamentos/playframework-core); if not, sign
+1. Make sure you have signed the [CLA](https://cla-assistant.io/felipebonezi/playframework-core); if not, sign
    it online.
 2. Ensure that your contribution meets the following guidelines:
     1. Live up to the current code standard:
@@ -51,5 +48,4 @@ Additionally, there are issues labels you can use to navigate issues that a good
 If the pull request does not meet the above requirements then the code should **not** be merged into master, or even
 reviewed - regardless of how good or important it is. No exceptions.
 
-The pull request will be reviewed according to Justa team availability. For more
-infos, [mail us](mailto:tech@justa.com.vc).
+The pull request will be reviewed according to contributors availability.
