@@ -1,5 +1,6 @@
 # playframework-core
 
+[![CI](https://github.com/felipebonezi/playframework-core/actions/workflows/continouos-integration.yml/badge.svg)](https://github.com/felipebonezi/playframework-core/actions/workflows/continouos-integration.yml)
 [![Version](https://img.shields.io/github/v/release/felipebonezi/playframework-core?logo=java)](https://github.com/felipebonezi/playframework-core/releases)
 [![CLA assistant](https://cla-assistant.io/readme/badge/felipebonezi/playframework-core)](https://cla-assistant.io/felipebonezi/playframework-core)
 [![Licence](https://img.shields.io/github/license/felipebonezi/playframework-core?color=blue)](https://github.com/felipebonezi/playframework-core/blob/master/LICENSE)
