@@ -45,7 +45,7 @@ Additionally, there are issues labels you can use to navigate issues that a good
           encourage [Collective Code Ownership](https://www.extremeprogramming.org/rules/collective.html).
 3. Submit a pull request.
 
-If the pull request does not meet the above requirements then the code should **not** be merged into master, or even
+If the pull request does not meet the above requirements then the code should **not** be merged into main, or even
 reviewed - regardless of how good or important it is. No exceptions.
 
 The pull request will be reviewed according to contributors availability.

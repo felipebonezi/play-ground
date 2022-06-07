@@ -3,7 +3,7 @@
 [![CI](https://github.com/felipebonezi/playframework-core/actions/workflows/continouos-integration.yml/badge.svg)](https://github.com/felipebonezi/playframework-core/actions/workflows/continouos-integration.yml)
 [![Version](https://img.shields.io/github/v/release/felipebonezi/playframework-core?logo=java)](https://github.com/felipebonezi/playframework-core/releases)
 [![CLA assistant](https://cla-assistant.io/readme/badge/felipebonezi/playframework-core)](https://cla-assistant.io/felipebonezi/playframework-core)
-[![Licence](https://img.shields.io/github/license/felipebonezi/playframework-core?color=blue)](https://github.com/felipebonezi/playframework-core/blob/master/LICENSE)
+[![Licence](https://img.shields.io/github/license/felipebonezi/playframework-core?color=blue)](https://github.com/felipebonezi/playframework-core/blob/main/LICENSE)
 
 Core classes &amp; models to re-use on your [Play! Framework](https://playframework.com/) project.
 
@@ -13,7 +13,7 @@ Core classes &amp; models to re-use on your [Play! Framework](https://playframew
 - [Java JWT](https://github.com/auth0/java-jwt)
 
 Check all project dependencies in our AutoPlugin
-at [project/Dependencies.scala](https://github.com/felipebonezi/playframework-core/blob/master/project/Dependencies.scala)
+at [project/Dependencies.scala](https://github.com/felipebonezi/playframework-core/blob/main/project/Dependencies.scala)
 file.
 
 ### How to use?
