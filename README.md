@@ -12,7 +12,7 @@ Core classes &amp; models to re-use on your [Play! Framework](https://playframew
 - [Java JWT](https://github.com/auth0/java-jwt)
 
 Check all project dependencies in our AutoPlugin
-at [project/Dependencies.scala](https://github.com/justapagamentos/playframework-core/blob/master/project/Dependencies.scala)
+at [project/Dependencies.scala](https://github.com/felipebonezi/playframework-core/blob/master/project/Dependencies.scala)
 file.
 
 ### How to use?
@@ -52,10 +52,10 @@ githubTokenSource :=
   TokenSource.Environment("GITHUB_TOKEN") || TokenSource.GitConfig("github.token")
 
 // Add another Maven Resolver using GitHub Package Registry.
-resolvers += Resolver.githubPackages("justapagamentos")
+resolvers += Resolver.githubPackages("felipebonezi")
 
 // Add the playframework-core dependency.
-libraryDependencies += "vc.com.justa" %% "playframework-core" % "vX.Y.Z"
+libraryDependencies += "br.com.felipebonezi" %% "playframework-core" % "vX.Y.Z"
 ```
 
 ### How to run this project?
@@ -78,7 +78,3 @@ Generating pre-built zip archives for distribution:
 $ cd playframework-core
 $ sbt dist
 ```
-
-### Authors
-
-- [Felipe Bonezi](mailto:fb@justa.com.vc)

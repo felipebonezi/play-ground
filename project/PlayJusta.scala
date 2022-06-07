@@ -15,7 +15,7 @@ import sbt._
 import sbt.plugins.JvmPlugin
 
 object PlayJusta extends AutoPlugin {
-  private lazy val conf: Config = ConfigFactory.parseFile(new File("conf/core.conf"))
+  private lazy val conf: Config = ConfigFactory.parseFile(new File("conf/reference.conf"))
 
   override def trigger: PluginTrigger = allRequirements
   override def requires: sbt.Plugins  = JvmPlugin
@@ -23,7 +23,7 @@ object PlayJusta extends AutoPlugin {
   override def projectSettings
       : Seq[Def.Setting[_ >: String with Task[Seq[String]] with Boolean with Task[Seq[File]]]] =
     Seq(
-      organization := "vc.com.justa",
+      organization := "br.com.felipebonezi",
       name := conf.getString("play.app.name"),
       version := conf.getString("play.app.version"),
       javacOptions in compile ++= Seq("-Xlint:deprecation"),
@@ -43,7 +43,7 @@ object PlayJusta extends AutoPlugin {
         "-Xfatal-warnings"
       ),
       scalacOptions in Test ++= Seq("-Yrangepos"),
-      javaOptions in Test ++= Seq("-Dconfig.resource=core.test.conf"),
+      javaOptions in Test ++= Seq("-Dconfig.resource=reference.test.conf"),
       publishArtifact in (Compile, packageDoc) := false,
       sources in (Compile, doc) := Seq.empty,
       autoAPIMappings := true
