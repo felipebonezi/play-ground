@@ -1,5 +1,21 @@
 {
   "extends": [
     "config:base"
+  ],
+  "addLabels": [
+    "Type: Maintenance"
+  ],
+  "additionalBranchPrefix": "deps/",
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automergeStrategy": "rebase"
+    }
   ]
 }
