@@ -2,10 +2,16 @@
   "extends": [
     "config:base"
   ],
+  "schedule": [
+    "every weekend"
+  ],
+  "dependencyDashboard": true,
+  "stabilityDays": 7,
+  "prCreation": "not-pending",
+  "additionalBranchPrefix": "deps/",
   "addLabels": [
     "Type: Maintenance"
   ],
-  "additionalBranchPrefix": "deps/",
   "packageRules": [
     {
       "automerge": true,
