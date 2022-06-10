@@ -14,17 +14,17 @@ public final class StringUtil {
   public static final String DASH  = "-";
   
   public static String toOnlyNumbers(String text) {
-      if (Strings.isNullOrEmpty(text)) {
-          return text;
-      }
+    if (Strings.isNullOrEmpty(text)) {
+      return text;
+    }
     
     return text.replaceAll("[\\D]", "");
   }
   
   public static String toASCII(String text) {
-      if (Strings.isNullOrEmpty(text)) {
-          return "";
-      }
+    if (Strings.isNullOrEmpty(text)) {
+      return "";
+    }
     
     return Normalizer.normalize(text, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
   }

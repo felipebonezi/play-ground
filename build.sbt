@@ -30,6 +30,12 @@ checkstyleConfigLocation := CheckstyleConfigLocation.File("conf/checkstyle/check
 //(checkstyle in Compile) := (checkstyle in Compile).triggeredBy(compile in Compile).value
 //(checkstyle in Test) := (checkstyle in Test).triggeredBy(compile in Test).value
 
+// Scalastyle Configuration
+import java.io.File
+scalastyleFailOnError := true
+scalastyleTarget := new File("target/scalastyle-report/scalastyle-result.xml")
+Test / scalastyleTarget := new File("target/scalastyle-report/scalastyle-test-result.xml")
+
 // GitHub Packages config.
 githubOwner := "felipebonezi"
 githubRepository := "playframework-core"

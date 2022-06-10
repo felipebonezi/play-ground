@@ -5,4 +5,4 @@
 "Type: Release": [ 'release/*', 'rel/*' ]
 "Type: Doc": [ 'docs/*', 'doc/*' ]
 "Type: Enhancement": [ 'enhancement/*', 'enhance/*', 'chore/*' ]
-"Type: Maintenance": [ 'maintenance/*', 'robot/*', 'devops/*', 'update/*', 'renovate/*' ]
+"Type: Maintenance": [ 'maintenance/*', 'robot/*', 'devops/*', 'update/*', 'renovate/*', 'deps/*' ]
