@@ -47,11 +47,11 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
     if (expression != null) {
       query = query.where(expression);
     }
-  
+    
     if (!Strings.isNullOrEmpty(fields)) {
       query.select(fields);
     }
-  
+    
     if (!Strings.isNullOrEmpty(orderBy)) {
       query.orderBy(orderBy);
     }
@@ -80,11 +80,11 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
     if (expression != null) {
       query.where(expression);
     }
-  
+    
     if (!Strings.isNullOrEmpty(fields)) {
       query.select(fields);
     }
-  
+    
     if (!Strings.isNullOrEmpty(orderBy)) {
       query.orderBy(orderBy);
     }
@@ -158,11 +158,11 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
     if (expression != null) {
       query.where(expression);
     }
-  
+    
     if (!Strings.isNullOrEmpty(fields)) {
       query.select(fields);
     }
-  
+    
     if (!Strings.isNullOrEmpty(orderBy)) {
       query.orderBy(orderBy);
     }
@@ -195,7 +195,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
     }
     
     int count = query.findCount();
-  
+    
     if (!Strings.isNullOrEmpty(fields)) {
       query.select(fields);
     }
@@ -206,7 +206,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
       }
       query.setMaxRows(limit);
     }
-  
+    
     if (!Strings.isNullOrEmpty(orderBy)) {
       query.orderBy(orderBy);
     }
@@ -229,7 +229,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
     }
     
     int countAll = query.findCount();
-  
+    
     if (!Strings.isNullOrEmpty(fields)) {
       query.select(fields);
     }
@@ -240,7 +240,7 @@ public abstract class ADatabase<I, T> implements IDatabase<I, T> {
       }
       query.setMaxRows(limit);
     }
-  
+    
     if (!Strings.isNullOrEmpty(orderBy)) {
       query.orderBy(orderBy);
     }

@@ -8,7 +8,9 @@ import play.mvc.Http;
 public interface ISessionManager {
   
   String newSession(Map<String, Object> claims);
+  
   Optional<UserSession> getSession(Http.Request req);
+  
   void removeSession(String authorization);
   
 }

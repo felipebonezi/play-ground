@@ -41,7 +41,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
   private void registerJodaTime(Formatters formatters) {
     formatters.register(org.joda.time.LocalDate.class, new SimpleFormatter<org.joda.time.LocalDate>() {
       
-      private Pattern timePattern = Pattern.compile(
+      private final Pattern timePattern = Pattern.compile(
           "(\\d{4})-(\\d{2})-(\\d{2})?"
       );
       
@@ -69,7 +69,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
       
     }).register(org.joda.time.DateTime.class, new SimpleFormatter<org.joda.time.DateTime>() {
       
-      private Pattern timePattern = Pattern.compile(
+      private final Pattern timePattern = Pattern.compile(
           "(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2})?"
       );
       
@@ -103,7 +103,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
   private void registerJavaTime(Formatters formatters) {
     formatters.register(LocalDate.class, new SimpleFormatter<LocalDate>() {
       
-      private Pattern timePattern = Pattern.compile(
+      private final Pattern timePattern = Pattern.compile(
           "(\\d{4})-(\\d{2})-(\\d{2})?"
       );
       
@@ -132,7 +132,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
     });
     formatters.register(LocalTime.class, new SimpleFormatter<LocalTime>() {
       
-      private Pattern timePattern = Pattern.compile(
+      private final Pattern timePattern = Pattern.compile(
           "(\\d{2}):(\\d{2})[:]?(\\d{2})?"
       );
       
