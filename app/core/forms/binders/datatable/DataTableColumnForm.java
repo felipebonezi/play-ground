@@ -1,11 +1,24 @@
 package core.forms.binders.datatable;
 
 public class DataTableColumnForm {
-
-    public String data;
-    public String name;
-    public boolean searchable;
-    public boolean orderable;
-    public DataTableSearchForm search;
-
+  
+  private String data;
+  private String name;
+  
+  public String getData() {
+    return data;
+  }
+  
+  public void setData(String data) {
+    this.data = data;
+  }
+  
+  public String getName() {
+    return name;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+  
 }

@@ -1,5 +1,7 @@
 package core.auth;
 
 public interface JWTValidateWithDB {
-    boolean isValid(UserSession session);
+  
+  boolean isValid(UserSession session);
+  
 }
