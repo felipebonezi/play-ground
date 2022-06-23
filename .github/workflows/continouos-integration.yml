@@ -112,7 +112,6 @@ jobs:
     name: Publish to GH Packages
     if: "github.event.release || github.event.release.prerelease"
     runs-on: ubuntu-latest
-    needs: [ build ]
 
     strategy:
       fail-fast: true
