@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
 Compile / doc / sources := Seq.empty
 routesGenerator := InjectedRoutesGenerator
 
-crossScalaVersions := Seq("2.13.5")
+crossScalaVersions := Seq("2.13.8")
 
 // Checkstyle config.
 checkstyleSeverityLevel := Some(CheckstyleSeverityLevel.Info)
