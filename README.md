@@ -64,7 +64,7 @@ libraryDependencies += "br.com.felipebonezi" %% "playframework-core" % "vX.Y.Z"
 ### How to run this project?
 
 This project requires [Play! Framework](https://playframework.com/) v2.8.X and [Scala](https://www.scala-lang.org)
-2.13.X or 2.12.X to run.
+2.13.X to run.
 
 Install the dependencies and devDependencies and start the server at default port (9000).
 

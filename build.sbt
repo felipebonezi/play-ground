@@ -19,7 +19,7 @@ sources in (Compile, doc) := Seq.empty
 routesGenerator := InjectedRoutesGenerator
 fork in run := true
 
-crossScalaVersions := Seq("2.13.5", "2.12.13")
+crossScalaVersions := Seq("2.13.5")
 
 // Coverage config.
 coverageEnabled in Test := true
