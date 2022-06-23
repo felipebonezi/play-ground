@@ -72,15 +72,22 @@ jobs:
   build:
     name: Build & Analyze
     if: "(github.event.release || github.event.release.prerelease) == false"
+    continue-on-error: ${{ matrix.experimental }}
     needs: [ lint, checkstyle ]
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         distribution: [ 'corretto' ]
         jdk: [ '11' ]
         scala: [ '2.13.8' ]
+        experimental: [false]
+        include:
+          - jdk: '17'
+            distribution: 'corretto'
+            scala: '2.13.8'
+            experimental: true
 
     steps:
       - name: Checkout repository
@@ -108,7 +115,7 @@ jobs:
     needs: [ build ]
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         distribution: [ 'corretto' ]
         jdk: [ '11' ]
