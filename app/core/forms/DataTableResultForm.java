@@ -2,6 +2,7 @@ package core.forms;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/** DataTable result form. */
 public class DataTableResultForm {
   
   private final int      recordsTotal;

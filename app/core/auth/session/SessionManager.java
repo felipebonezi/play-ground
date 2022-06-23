@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import play.mvc.Http;
 
-public interface ISessionManager {
+/** Session manager interface to create, get and remove user session from {@link Http.Request}. */
+public interface SessionManager {
   
   String newSession(Map<String, Object> claims);
   

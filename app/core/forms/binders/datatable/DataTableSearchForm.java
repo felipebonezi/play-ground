@@ -1,5 +1,6 @@
 package core.forms.binders.datatable;
 
+/** DataTable search form. */
 public class DataTableSearchForm {
   
   private boolean regex;

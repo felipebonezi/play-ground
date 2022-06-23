@@ -1,13 +1,14 @@
 package core.injections;
 
+import static java.util.Arrays.asList;
+import static java.util.concurrent.CompletableFuture.completedFuture;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 import com.google.common.net.HttpHeaders;
 import com.typesafe.config.Config;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,6 +16,7 @@ import play.libs.ws.WSClient;
 import play.mvc.Http;
 import play.shaded.ahc.io.netty.handler.codec.http.HttpResponseStatus;
 
+/** Google ReCaptcha implementation. */
 @Singleton
 public class GoogleReCaptchaApi {
   
@@ -33,34 +35,34 @@ public class GoogleReCaptchaApi {
     }
   }
   
+  /**
+   * Validate a {@link Http.Request} through Google ReCaptcha service.
+   *
+   * @param request Http request with `g-recaptcha-response` form-url-encoded parameter.
+   *
+   * @return True if is valid, false otherwise.
+   */
   public CompletionStage<Boolean> validate(Http.Request request) {
     if (!this.active) {
-      return CompletableFuture.completedFuture(true);
+      return completedFuture(true);
     }
     
     Map<String, String[]> map = request.body().asFormUrlEncoded();
     if (map == null || !map.containsKey("g-recaptcha-response")) {
-      return CompletableFuture.completedFuture(false);
+      return completedFuture(false);
     }
     
     String token = map.get("g-recaptcha-response")[0];
     if (Strings.isNullOrEmpty(token)) {
-      return CompletableFuture.completedFuture(false);
+      return completedFuture(false);
     }
     
-    String remoteIp = request.remoteAddress();
-    
-    List<String> params = Arrays.asList(
-        String.format("secret=%s", this.secret)
-        , String.format("response=%s", token)
-        , String.format("remoteip=%s", remoteIp)
-    );
-    String body = String.join("&", params);
+    List<String> params =
+        asList("secret=" + this.secret, "response=" + token, "remoteip=" + request.remoteAddress());
     
     return this.wsClient.url(this.url)
         .addHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=utf-8")
-        .post(body)
-        .handle((wsResponse, throwable) -> {
+        .post(String.join("&", params)).handle((wsResponse, throwable) -> {
           if (throwable != null) {
             throwable.printStackTrace();
             return false;

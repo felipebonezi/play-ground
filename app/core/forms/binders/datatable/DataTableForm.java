@@ -5,9 +5,9 @@ import static core.utils.StringUtil.COMMA;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import play.mvc.QueryStringBindable;
 
+/** DataTable form. */
 public class DataTableForm implements QueryStringBindable<DataTableForm> {
   
   private int draw   = 0;
@@ -80,23 +81,29 @@ public class DataTableForm implements QueryStringBindable<DataTableForm> {
     return this.search != null && !isNullOrEmpty(this.search.getValue());
   }
   
+  /**
+   * Get order if exists. Otherwise, uses the default one.
+   *
+   * @param defaultOrder Default order.
+   *
+   * @return Order column joined by comma (e.g. "id, name").
+   */
   public String getOrderBy(String defaultOrder) {
-    return this.orders != null && this.orders.length > 0 ?
-           Arrays.stream(this.orders)
-               .map(DataTableOrderForm::getDir).collect(joining(COMMA)) : defaultOrder;
+    return this.orders != null && this.orders.length > 0
+           ? stream(this.orders).map(DataTableOrderForm::getDir).collect(joining(COMMA)) :
+           defaultOrder;
   }
   
   @Override
   public Optional<DataTableForm> bind(String key, Map<String, String[]> data) {
     this.search = new DataTableSearchForm();
     
-    Map<Integer, DataTableOrderForm> orderMap = new HashMap<>();
-    Pattern orderPattern = Pattern.compile(
-        "orders\\[(\\d)]\\.([a-zA-Z])");
+    Map<Integer, DataTableOrderForm> orderMap     = new HashMap<>();
+    Pattern                          orderPattern = Pattern.compile("orders\\[(\\d)]\\.([a-zA-Z])");
     
     Map<Integer, DataTableColumnForm> columnMap = new HashMap<>();
-    Pattern columnPattern = Pattern.compile(
-        "columns\\[(\\d)]\\.([a-zA-Z])");
+    Pattern columnPattern =
+        Pattern.compile("columns\\[(\\d)]\\.([a-zA-Z])");
     
     for (Map.Entry<String, String[]> entry : data.entrySet()) {
       String   entryKey   = entry.getKey();
@@ -126,7 +133,8 @@ public class DataTableForm implements QueryStringBindable<DataTableForm> {
     return Optional.of(this);
   }
   
-  private void bindColumnForm(Map<Integer, DataTableColumnForm> columnMap, Pattern columnPattern, String entryKey, String[] entryValue) {
+  private void bindColumnForm(Map<Integer, DataTableColumnForm> columnMap, Pattern columnPattern,
+                              String entryKey, String[] entryValue) {
     Matcher matcher = columnPattern.matcher(entryKey);
     int     idx     = parseInt(matcher.group(1));
     
@@ -150,7 +158,8 @@ public class DataTableForm implements QueryStringBindable<DataTableForm> {
     }
   }
   
-  private void bindOrderForm(Map<Integer, DataTableOrderForm> orderMap, Pattern orderPattern, String entryKey, String[] entryValue) {
+  private void bindOrderForm(Map<Integer, DataTableOrderForm> orderMap, Pattern orderPattern,
+                             String entryKey, String[] entryValue) {
     Matcher matcher = orderPattern.matcher(entryKey);
     int     idx     = parseInt(matcher.group(1));
     
@@ -200,23 +209,23 @@ public class DataTableForm implements QueryStringBindable<DataTableForm> {
   
   @Override
   public String toString() {
-    return format("draw=%d&start=%d&length=%d", this.draw, this.start, this.length) +
+    return format("draw=%d&start=%d&length=%d", this.draw, this.start, this.length)
         // Search.
-        (this.search == null ? "" : format("&search.regex=%s&search.value=%s",
-            this.search.isRegex(), this.search.getValue())) +
+        + (this.search == null ? "" :
+           format("&search.regex=%s&search.value=%s", this.search.isRegex(),
+               this.search.getValue()))
         // Orders.
-        (this.orders == null || this.orders.length == 0 ? "" : "&" + IntStream.range(0,
-                this.orders.length)
-            .mapToObj(idx -> format("orders[%d].column=%d&orders[%d].dir=%s", idx,
+        + (this.orders == null || this.orders.length == 0 ? "" : "&"
+        + IntStream.range(0, this.orders.length).mapToObj(
+            idx -> format("orders[%d].column=%d&orders[%d].dir=%s", idx,
                 this.orders[idx].getColumn(), idx, this.orders[idx].getDir()))
-            .collect(joining("&"))) +
+        .collect(joining("&")))
         // Columns.
-        (this.columns == null || this.columns.length == 0 ? "" : "&" + IntStream.range(0,
-                this.columns.length)
-            .mapToObj(idx -> format("columns[%d].name=%s&columns[%d].data=%s", idx,
+        + (this.columns == null || this.columns.length == 0 ? "" : "&"
+        + IntStream.range(0, this.columns.length).mapToObj(
+            idx -> format("columns[%d].name=%s&columns[%d].data=%s", idx,
                 this.columns[idx].getName(), idx, this.columns[idx].getData()))
-            .collect(joining("&")))
-        ;
+        .collect(joining("&")));
   }
   
 }

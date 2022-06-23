@@ -2,6 +2,7 @@ package core.utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/** Encrypt hash using {@link BCrypt}. */
 public final class HashUtil {
   
   private HashUtil() {
@@ -12,7 +13,8 @@ public final class HashUtil {
   }
   
   public static boolean checkPassword(String candidate, String encryptedPassword) {
-    return candidate != null && encryptedPassword != null && BCrypt.checkpw(candidate, encryptedPassword);
+    return candidate != null && encryptedPassword != null
+        && BCrypt.checkpw(candidate, encryptedPassword);
   }
   
 }

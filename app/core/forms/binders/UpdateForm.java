@@ -3,6 +3,7 @@ package core.forms.binders;
 import core.forms.validations.UpdateGroup;
 import play.data.validation.Constraints;
 
+/** Update form boirlerplate. */
 public abstract class UpdateForm {
   
   @Constraints.Min(value = 1, groups = UpdateGroup.class)

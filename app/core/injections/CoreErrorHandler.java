@@ -1,7 +1,7 @@
 package core.injections;
 
-import static core.controllers.AController.Code;
-import static core.controllers.AController.jsonError;
+import static core.controllers.FormController.Code;
+import static core.controllers.FormController.jsonError;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static play.mvc.Results.badRequest;
 
@@ -17,11 +17,13 @@ import play.http.DefaultHttpErrorHandler;
 import play.mvc.Http;
 import play.mvc.Result;
 
+/** Default Http error handler maping response as JSON. */
 @Singleton
 public class CoreErrorHandler extends DefaultHttpErrorHandler {
   
   @Inject
-  public CoreErrorHandler(Config config, Environment environment, OptionalSourceMapper sourceMapper, Provider<Router> routes) {
+  public CoreErrorHandler(Config config, Environment environment, OptionalSourceMapper sourceMapper,
+                          Provider<Router> routes) {
     super(config, environment, sourceMapper, routes);
   }
   

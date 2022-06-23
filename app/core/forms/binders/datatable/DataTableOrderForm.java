@@ -1,5 +1,6 @@
 package core.forms.binders.datatable;
 
+/** DataTable order form. */
 public class DataTableOrderForm {
   
   private int    column;

@@ -2,9 +2,7 @@ package core.utils;
 
 import play.Logger;
 
-/**
- * Classe auxiliar para Debug em log do sistema.
- */
+/** Debug helper method. */
 public final class DebugUtil {
   
   private DebugUtil() {
@@ -17,47 +15,47 @@ public final class DebugUtil {
   private static final String DEFAULT_TAG = "CORE";
   
   /**
-   * Padrão default para logs complexos.
+   * Tag for complex logs (start).
    */
   private static final String DEBUG_START = ">>>>>> DEBUG START <<<<<<";
   
   /**
-   * Padrão default para logs complexos.
+   * Tag for complex logs (end).
    */
   private static final String DEBUG_END = ">>>>>> DEBUG END <<<<<<";
   
   /**
-   * Log de modo DEBUG do sistema.
+   * Debug log.
    *
-   * @param tag      - Tag
-   * @param messages - messages em Array
+   * @param tag      Tag.
+   * @param messages Messages.
    */
-  public static void d(String tag, String... messages) {
-    d(tag, DEBUG_START);
+  public static void debug(String tag, String... messages) {
+    debug(tag, DEBUG_START);
     if (messages != null && messages.length > 0) {
       for (String message : messages) {
-        d(tag, message);
+        debug(tag, message);
       }
     }
-    d(tag, DEBUG_END);
+    debug(tag, DEBUG_END);
   }
   
   /**
-   * Log de modo DEBUG do sistema.
+   * Debug log.
    *
-   * @param message - message a ser salva.
+   * @param message Message.
    */
-  public static void d(String message) {
-    d(DEFAULT_TAG, message);
+  public static void debug(String message) {
+    debug(DEFAULT_TAG, message);
   }
   
   /**
-   * Log de modo DEBUG do sistema.
+   * Debug log.
    *
-   * @param tag     - Tag
-   * @param message - message a ser salva.
+   * @param tag     Tag
+   * @param message Message.
    */
-  public static void d(String tag, String message) {
+  public static void debug(String tag, String message) {
     if (AppUtil.isProdMode()) {
       return;
     }
@@ -66,88 +64,88 @@ public final class DebugUtil {
   }
   
   /**
-   * Log de modo WARNING do sistema.
+   * Warning log.
    *
-   * @param message - message a ser salva.
+   * @param message Message.
    */
-  public static void w(String message) {
-    w(DEFAULT_TAG, message);
+  public static void warn(String message) {
+    warn(DEFAULT_TAG, message);
   }
   
   /**
-   * Log de modo WARNING do sistema.
+   * Warning log.
    *
-   * @param tag     - Tag
-   * @param message - message a ser salva.
+   * @param tag     Tag
+   * @param message Message.
    */
-  public static void w(String tag, String message) {
+  public static void warn(String tag, String message) {
     Logger.of(tag).warn(message);
   }
   
   /**
-   * Log de modo INFORMATION do sistema.
+   * Info log.
    *
-   * @param message - message a ser salva.
+   * @param message Message.
    */
-  public static void i(String message) {
-    i(DEFAULT_TAG, message);
+  public static void info(String message) {
+    info(DEFAULT_TAG, message);
   }
   
   /**
-   * Log de modo INFORMATION do sistema.
+   * Info log.
    *
-   * @param tag     - Tag
-   * @param message - message a ser salva.
+   * @param tag     Tag
+   * @param message Message.
    */
-  public static void i(String tag, String message) {
+  public static void info(String tag, String message) {
     Logger.of(tag).info(message);
   }
   
   /**
-   * Log de modo MESSAGE do sistema.
+   * Error log.
    *
-   * @param message - message a ser salva.
+   * @param message Message.
    */
-  public static void e(String message) {
-    e(DEFAULT_TAG, message);
+  public static void error(String message) {
+    error(DEFAULT_TAG, message);
   }
   
   /**
-   * Log de modo MESSAGE do sistema.
+   * Error log.
    *
-   * @param tag     - Tag
-   * @param message - message a ser salva.
+   * @param tag     Tag
+   * @param message Message.
    */
-  public static void e(String tag, String message) {
+  public static void error(String tag, String message) {
     Logger.of(tag).error(message);
   }
   
   /**
-   * Log de modo MESSAGE do sistema.
+   * Error log.
    *
-   * @param exception - Exceção a ser salva.
+   * @param exception Exceção a ser salva.
    */
-  public static void e(Exception exception) {
-    e(DEFAULT_TAG, exception);
+  public static void error(Exception exception) {
+    error(DEFAULT_TAG, exception);
   }
   
   /**
-   * Log de modo MESSAGE do sistema.
+   * Error log.
    *
-   * @param tag       - Tag
-   * @param exception - Exceção a ser salva.
+   * @param tag       Tag
+   * @param exception Exceção a ser salva.
    */
-  public static void e(String tag, Exception exception) {
+  public static void error(String tag, Exception exception) {
     Logger.of(tag).error(exception.toString());
   }
   
   /**
-   * Log de modo MESSAGE do sistema.
+   * Error log.
    *
-   * @param tag       - Tag
-   * @param throwable - Exceção a ser salva.
+   * @param tag       Tag
+   * @param throwable Exceção a ser salva.
    */
-  public static void e(String tag, Throwable throwable) {
+  public static void error(String tag, Throwable throwable) {
     Logger.of(tag).error(throwable.toString());
   }
   

@@ -3,31 +3,32 @@ package core.utils;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 
+/** Akka job helper method. */
 public final class JobUtil {
   
   private JobUtil() {
   }
   
   /**
-   * Método para obter o delay para a próxima hora e minuto informado - em segundos.
+   * Return next execution in seconds.
    *
-   * @param hour   - Hora desejada
-   * @param minute - Minuto desejado
+   * @param hour   Expected hour.
+   * @param minute Expected minute.
    *
-   * @return seconds
+   * @return Seconds between now and expected time.
    */
   public static int nextExecutionInSeconds(int hour, int minute) {
     return Seconds.secondsBetween(DateTime.now(), nextExecution(hour, minute)).getSeconds();
   }
   
   /**
-   * Método para obter o próximo DateTime da hora e minuto informado.
-   * Caso esse horário já tenha passado, é adicionado um dia.
+   * Return next execution as {@link DateTime}.
+   * If the expected date time is in the past then a day will be increased.
    *
-   * @param hour   - Hora desejada
-   * @param minute - Minuto desejado
+   * @param hour   Expected hour.
+   * @param minute Expected minute.
    *
-   * @return date
+   * @return Date time.
    */
   private static DateTime nextExecution(int hour, int minute) {
     DateTime next = new DateTime()
