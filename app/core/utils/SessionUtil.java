@@ -4,11 +4,19 @@ import com.auth0.jwt.interfaces.Claim;
 import core.auth.UserSession;
 import java.util.Map;
 
+/** Session helper methods. */
 public final class SessionUtil {
   
   private SessionUtil() {
   }
   
+  /**
+   * Get {@link UserSession} from JWT claims map.
+   *
+   * @param claims Claims.
+   *
+   * @return User session.
+   */
   public static UserSession parse(Map<String, Claim> claims) {
     if (claims.isEmpty()
         || !claims.containsKey("user.id")

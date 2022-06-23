@@ -3,6 +3,7 @@ package core.auth;
 import java.util.HashMap;
 import java.util.Map;
 
+/** User session model. */
 public class UserSession {
   
   private final Long                id;

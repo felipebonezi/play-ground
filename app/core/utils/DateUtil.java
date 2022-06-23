@@ -31,7 +31,7 @@ public final class DateUtil {
   public static final String DEFAULT_VIEW_DATE_PATTERN = "dd/MM/yyyy";
   
   /**
-   * Formato padrão de exibição para utilizasa no JavaScript
+   * Formato padrão de exibição para utilizasa no JavaScript.
    */
   public static final String DEFAULT_VIEW_DATE_JS_PATTERN = "dd/mm/yyyy";
   
@@ -68,14 +68,15 @@ public final class DateUtil {
   public static final String DEFAULT_TIME_PATTERN                       = "HH:mm";
   
   /**
-   * Responsável por transformar uma string em padrão para uma entidade Date.
+   * Parse value to {@link DateTime}.
    *
-   * @param dateHour
+   * @param value   Value to be parsed.
+   * @param pattern Date time pattern.
    *
-   * @return
+   * @return Date time.
    */
-  public static DateTime parse(String dateHour, String pattern) {
-    if (dateHour == null || dateHour.isEmpty()) {
+  public static DateTime parse(String value, String pattern) {
+    if (value == null || value.isEmpty()) {
       return null;
     }
     
@@ -83,11 +84,19 @@ public final class DateUtil {
       pattern = DEFAULT_DATE_TIME_PATTERN;
     }
     
-    return DateTime.parse(dateHour, DateTimeFormat.forPattern(pattern));
+    return DateTime.parse(value, DateTimeFormat.forPattern(pattern));
   }
   
-  public static LocalDate parseDate(String date, String pattern) {
-    if (date == null || date.isEmpty()) {
+  /**
+   * Parse value to {@link LocalDate}.
+   *
+   * @param value   Value to be parsed.
+   * @param pattern Date pattern.
+   *
+   * @return Date time.
+   */
+  public static LocalDate parseDate(String value, String pattern) {
+    if (value == null || value.isEmpty()) {
       return null;
     }
     
@@ -95,53 +104,18 @@ public final class DateUtil {
       pattern = DEFAULT_DATE_PATTERN;
     }
     
-    return LocalDate.parse(date, DateTimeFormat.forPattern(pattern));
+    return LocalDate.parse(value, DateTimeFormat.forPattern(pattern));
   }
   
   /**
-   * Método responsável por ler uma classe Date e transforma-la em String no formato passado.
+   * Parse a String to {@link LocalDate}.
    *
-   * @param dateHour
+   * @param date Date as String.
    *
-   * @return formattedDate
+   * @return Date.
    */
-  public static String format(DateTime dateHour) {
-    return format(dateHour, DEFAULT_DATE_PATTERN);
-  }
-  
-  /**
-   * Método responsável por ler uma classe Date e transforma-la em String no formato passado.
-   *
-   * @param dateHour
-   * @param pattern
-   *
-   * @return formattedDate
-   */
-  public static String format(DateTime dateHour, String pattern) {
-    if (dateHour == null) {
-      return null;
-    }
-    
-    if (pattern == null || pattern.isEmpty()) {
-      pattern = DATE_HOUR_PATTERN_BR;
-    }
-    
-    return dateHour.toString(pattern);
-  }
-  
-  public static String format(LocalTime time) {
-    return format(time, HOUR_PATTERN_BR);
-  }
-  
-  /**
-   * Responsável por transformar uma string em padrão para uma entidade Date.
-   *
-   * @param dateHour
-   *
-   * @return
-   */
-  public static LocalDate parseLocalDate(String dateHour, String pattern) {
-    if (dateHour == null || dateHour.isEmpty()) {
+  public static LocalDate parseLocalDate(String date, String pattern) {
+    if (date == null || date.isEmpty()) {
       return null;
     }
     
@@ -149,41 +123,17 @@ public final class DateUtil {
       pattern = DEFAULT_DATE_TIME_PATTERN;
     }
     
-    return LocalDate.parse(dateHour, DateTimeFormat.forPattern(pattern));
+    return LocalDate.parse(date, DateTimeFormat.forPattern(pattern));
   }
   
   /**
-   * Método responsável por ler uma classe Date e transforma-la em String no formato passado.
+   * Parse String as {@link LocalTime}.
    *
-   * @param dateHour
-   * @param pattern
+   * @param time    Time.
+   * @param pattern Pattern.
    *
-   * @return formattedDate
+   * @return Formatted time with pattern.
    */
-  public static String format(LocalDate dateHour, String pattern) {
-    if (dateHour == null) {
-      return null;
-    }
-    
-    if (pattern == null || pattern.isEmpty()) {
-      pattern = DATE_PATTERN_BR;
-    }
-    
-    return dateHour.toString(pattern);
-  }
-  
-  public static String format(LocalTime time, String pattern) {
-    if (time == null) {
-      return null;
-    }
-    
-    if (pattern == null || pattern.isEmpty()) {
-      pattern = HOUR_PATTERN_BR;
-    }
-    
-    return time.toString(pattern);
-  }
-  
   public static LocalTime parseLocalTime(String time, String pattern) {
     if (Strings.isNullOrEmpty(time)) {
       return null;
@@ -196,6 +146,89 @@ public final class DateUtil {
     return LocalTime.parse(time, DateTimeFormat.forPattern(pattern));
   }
   
+  /**
+   * Format {@link DateTime} as text.
+   *
+   * @param dateTime Date time.
+   *
+   * @return Formatted date with default pattern (i.e. `YYYY-MM-dd`)
+   */
+  public static String format(DateTime dateTime) {
+    return format(dateTime, DEFAULT_DATE_PATTERN);
+  }
+  
+  /**
+   * Format {@link DateTime} as text.
+   *
+   * @param dateTime Date time.
+   * @param pattern  Pattern.
+   *
+   * @return Formatted date with pattern.
+   */
+  public static String format(DateTime dateTime, String pattern) {
+    if (dateTime == null) {
+      return null;
+    }
+    
+    if (pattern == null || pattern.isEmpty()) {
+      pattern = DATE_HOUR_PATTERN_BR;
+    }
+    
+    return dateTime.toString(pattern);
+  }
+  
+  public static String format(LocalTime time) {
+    return format(time, HOUR_PATTERN_BR);
+  }
+  
+  /**
+   * Format {@link LocalDate} to String.
+   *
+   * @param date    Date.
+   * @param pattern Pattern.
+   *
+   * @return Formatted date with pattern.
+   */
+  public static String format(LocalDate date, String pattern) {
+    if (date == null) {
+      return null;
+    }
+    
+    if (pattern == null || pattern.isEmpty()) {
+      pattern = DATE_PATTERN_BR;
+    }
+    
+    return date.toString(pattern);
+  }
+  
+  /**
+   * Format {@link LocalTime} as String.
+   *
+   * @param time    Time.
+   * @param pattern Pattern.
+   *
+   * @return Formatted time.
+   */
+  public static String format(LocalTime time, String pattern) {
+    if (time == null) {
+      return null;
+    }
+    
+    if (pattern == null || pattern.isEmpty()) {
+      pattern = HOUR_PATTERN_BR;
+    }
+    
+    return time.toString(pattern);
+  }
+  
+  /**
+   * Return if a candidate String is {@link LocalDate}.
+   *
+   * @param candidate Candidate value.
+   * @param pattern   Pattern.
+   *
+   * @return True if is a valid date, false otherwise.
+   */
   public static boolean isDate(String candidate, String pattern) {
     try {
       return parseDate(candidate, pattern) != null;

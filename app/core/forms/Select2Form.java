@@ -1,5 +1,6 @@
 package core.forms;
 
+/** <a href="https://select2.org/">Select2</a> form. */
 public class Select2Form {
   
   private String id;

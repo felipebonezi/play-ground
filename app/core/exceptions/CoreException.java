@@ -1,5 +1,6 @@
 package core.exceptions;
 
+/** Basic exception. */
 public class CoreException extends Exception {
   
   private final int code;

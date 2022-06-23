@@ -1,7 +1,6 @@
 package core.auth.session.impl;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -10,10 +9,9 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
-import core.auth.JWTValidateWithDB;
+import core.auth.JwtValidateWithDb;
 import core.auth.UserSession;
-import core.auth.session.ISessionManager;
-import core.controllers.AController;
+import core.auth.session.SessionManager;
 import core.utils.DebugUtil;
 import core.utils.SessionUtil;
 import core.utils.StringUtil;
@@ -21,7 +19,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -29,25 +26,27 @@ import org.joda.time.DateTime;
 import play.cache.SyncCacheApi;
 import play.mvc.Http;
 
-public class JwtSessionManager implements ISessionManager {
+/** JWT session manager implementation. */
+public class JwtSessionManagerImpl implements SessionManager {
   
   private static final String CACHE_AUTH_USER = "credentials-ids-%s";
   
   private final Config            config;
   private final Algorithm         jwtAlgorithm;
   private final SyncCacheApi      cacheApi;
-  private final JWTValidateWithDB validateWithDB;
+  private final JwtValidateWithDb validateWithDb;
   
   @Inject
-  public JwtSessionManager(Config config, SyncCacheApi cacheApi, JWTValidateWithDB validateWithDB) {
+  public JwtSessionManagerImpl(Config config, SyncCacheApi cacheApi,
+                               JwtValidateWithDb validateWithDb) {
     this.config         = config;
     this.cacheApi       = cacheApi;
-    this.validateWithDB = validateWithDB;
+    this.validateWithDb = validateWithDb;
     
     String jwtSecret = config.getString("play.jwt.secret.key");
     if (Strings.isNullOrEmpty(jwtSecret)) {
-      throw new IllegalArgumentException("Valid secret required. " +
-          "Define into application.conf over 'play.jwt.secret.key' config.");
+      throw new IllegalArgumentException("Valid secret required. "
+          + "Define into application.conf over 'play.jwt.secret.key' config.");
     }
     
     this.jwtAlgorithm = Algorithm.HMAC256(jwtSecret);
@@ -76,7 +75,7 @@ public class JwtSessionManager implements ISessionManager {
       jwt = verifier.verify(jwtToken);
     } catch (JWTVerificationException e) {
       //Invalid signature/claims
-      DebugUtil.e(e);
+      DebugUtil.error(e);
     }
     return jwt != null ? jwt.getClaims() : Collections.emptyMap();
   }
@@ -89,33 +88,18 @@ public class JwtSessionManager implements ISessionManager {
     int           month      = expiration.getMonthValue() - 1;
     
     Calendar expiresAt = Calendar.getInstance();
-    expiresAt.set(expiration.getYear(), month, expiration.getDayOfMonth(), expiration.getHour(), expiration.getMinute());
+    expiresAt.set(expiration.getYear(), month, expiration.getDayOfMonth(), expiration.getHour(),
+        expiration.getMinute());
     
     String token = null;
     try {
-      JWTCreator.Builder builder = JWT.create()
+      token = JWT.create()
           .withExpiresAt(expiresAt.getTime())
-          .withIssuer("auth0");
-      for (Map.Entry<String, Object> entry : claims.entrySet()) {
-        String key = entry.getKey();
-        Object obj = entry.getValue();
-        if (obj instanceof Long) {
-          builder.withClaim(key, (Long) obj);
-        } else if (obj instanceof Integer) {
-          builder.withClaim(key, (Integer) obj);
-        } else if (obj instanceof String) {
-          builder.withClaim(key, (String) obj);
-        } else if (obj instanceof Double) {
-          builder.withClaim(key, (Double) obj);
-        } else if (obj instanceof Boolean) {
-          builder.withClaim(key, (Boolean) obj);
-        } else if (obj instanceof Date) {
-          builder.withClaim(key, (Date) obj);
-        }
-      }
-      token = builder.sign(getJwtAlgorithm());
+          .withIssuer("auth0")
+          .withPayload(claims)
+          .sign(getJwtAlgorithm());
     } catch (JWTCreationException e) {
-      DebugUtil.e(e);
+      DebugUtil.error(e);
     }
     return token;
   }
@@ -133,7 +117,7 @@ public class JwtSessionManager implements ISessionManager {
     String      key           = String.format(CACHE_AUTH_USER, jwtToken);
     UserSession sessionCached = (UserSession) cacheApi.get(key).orElse(null);
     
-    if (sessionCached != null && !validateWithDB.isValid(sessionCached)) {
+    if (sessionCached != null && !validateWithDb.isValid(sessionCached)) {
       // Valid JWT token is required.
       return Optional.empty();
     }
@@ -142,7 +126,8 @@ public class JwtSessionManager implements ISessionManager {
     UserSession        newSession = SessionUtil.parse(claims);
     
     if (newSession != null) {
-      cacheApi.set(key, newSession, AController.CacheContext.Expiration.THIRD_MINUTES);
+      // 30 minutes cached session.
+      cacheApi.set(key, newSession, 1800);
     }
     
     return Optional.ofNullable(newSession);

@@ -3,6 +3,7 @@ package core.utils;
 import com.typesafe.config.Config;
 import play.mvc.Call;
 
+/** Application utilities methods. */
 public final class AppUtil {
   
   private AppUtil() {
@@ -14,6 +15,11 @@ public final class AppUtil {
   private static boolean copyProdMode;
   private static String  appHost;
   
+  /**
+   * Initialize application infos.
+   *
+   * @param config Play configuration.
+   */
   public static void init(Config config) {
     appHost = config.getString("play.app.host");
     

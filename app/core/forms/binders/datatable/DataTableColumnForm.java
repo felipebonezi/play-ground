@@ -1,5 +1,6 @@
 package core.forms.binders.datatable;
 
+/** DataTable column form. */
 public class DataTableColumnForm {
   
   private String data;

@@ -18,6 +18,7 @@ import play.data.format.Formatters;
 import play.data.format.Formatters.SimpleFormatter;
 import play.i18n.MessagesApi;
 
+/** Default date formatter provider using `YYYY-MM-dd` as pattern. */
 @Singleton
 public class DateFormattersProvider implements Provider<Formatters> {
   
@@ -39,11 +40,9 @@ public class DateFormattersProvider implements Provider<Formatters> {
   }
   
   private void registerJodaTime(Formatters formatters) {
-    formatters.register(org.joda.time.LocalDate.class, new SimpleFormatter<org.joda.time.LocalDate>() {
+    formatters.register(org.joda.time.LocalDate.class, new SimpleFormatter<>() {
       
-      private final Pattern timePattern = Pattern.compile(
-          "(\\d{4})-(\\d{2})-(\\d{2})?"
-      );
+      private final Pattern timePattern = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2})?");
       
       @Override
       public org.joda.time.LocalDate parse(String input, Locale l) throws ParseException {
@@ -59,7 +58,6 @@ public class DateFormattersProvider implements Provider<Formatters> {
         } catch (Exception e) {
           throw new ParseException(String.format("Unknonw error: %s", e.getMessage()), 0);
         }
-        
       }
       
       @Override
@@ -69,9 +67,8 @@ public class DateFormattersProvider implements Provider<Formatters> {
       
     }).register(org.joda.time.DateTime.class, new SimpleFormatter<org.joda.time.DateTime>() {
       
-      private final Pattern timePattern = Pattern.compile(
-          "(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2})?"
-      );
+      private final Pattern timePattern =
+          Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2})?");
       
       @Override
       public org.joda.time.DateTime parse(String input, Locale l) throws ParseException {
@@ -103,9 +100,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
   private void registerJavaTime(Formatters formatters) {
     formatters.register(LocalDate.class, new SimpleFormatter<LocalDate>() {
       
-      private final Pattern timePattern = Pattern.compile(
-          "(\\d{4})-(\\d{2})-(\\d{2})?"
-      );
+      private final Pattern timePattern = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2})?");
       
       @Override
       public LocalDate parse(String input, Locale l) throws ParseException {
@@ -132,9 +127,7 @@ public class DateFormattersProvider implements Provider<Formatters> {
     });
     formatters.register(LocalTime.class, new SimpleFormatter<LocalTime>() {
       
-      private final Pattern timePattern = Pattern.compile(
-          "(\\d{2}):(\\d{2})[:]?(\\d{2})?"
-      );
+      private final Pattern timePattern = Pattern.compile("(\\d{2}):(\\d{2})[:]?(\\d{2})?");
       
       @Override
       public LocalTime parse(String input, Locale l) throws ParseException {
