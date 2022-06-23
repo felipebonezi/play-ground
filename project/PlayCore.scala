@@ -21,31 +21,22 @@ object PlayCore extends AutoPlugin {
   override def requires: sbt.Plugins  = JvmPlugin
 
   override def projectSettings
-      : Seq[Def.Setting[_ >: String with Task[Seq[String]] with Boolean with Task[Seq[File]]]] =
-    Seq(
-      organization := "br.com.felipebonezi",
-      name := conf.getString("play.app.name"),
-      version := conf.getString("play.app.version"),
-      javacOptions in compile ++= Seq("-Xlint:deprecation"),
-      javaOptions in Universal ++= Seq(
-        "-J-Xmx2500m",
-        "-J-Xms1500m",
-        "-XX:InitialRAMPercentage=50.0",
-        "-Dpidfile.path=/dev/null"
-      ),
-      scalacOptions ++= Seq(
-        "-encoding",
-        "UTF-8",
-        "-deprecation",
-        "-feature",
-        "-unchecked",
-        "-Ywarn-numeric-widen",
-        "-Xfatal-warnings"
-      ),
-      scalacOptions in Test ++= Seq("-Yrangepos"),
-      javaOptions in Test ++= Seq("-Dconfig.resource=reference.test.conf"),
-      publishArtifact in (Compile, packageDoc) := false,
-      sources in (Compile, doc) := Seq.empty,
-      autoAPIMappings := true
-    )
+      : Seq[Def.Setting[_ >: String with File with Task[Seq[String]] with Boolean]] = Seq(
+    organization := "br.com.felipebonezi",
+    name := conf.getString("play.app.name"),
+    version := conf.getString("play.app.version"),
+    unmanagedBase := baseDirectory.value / "routing",
+    scalacOptions ++= Seq(
+      "-encoding",
+      "UTF-8",
+      "-deprecation",
+      "-feature",
+      "-unchecked",
+      "-Ywarn-numeric-widen",
+      "-Xfatal-warnings"
+    ),
+    Test / scalacOptions ++= Seq("-Yrangepos"),
+    Test / javaOptions ++= Seq("-Dconfig.resource=application.test.conf"),
+    autoAPIMappings := true
+  )
 }
