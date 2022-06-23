@@ -74,10 +74,6 @@ jobs:
     if: "(github.event.release || github.event.release.prerelease) == false"
     needs: [ lint, checkstyle ]
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
 
     strategy:
       fail-fast: false
@@ -85,20 +81,10 @@ jobs:
         distribution: [ 'corretto' ]
         jdk: [ '11' ]
         scala: [ '2.13.8' ]
-        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
-        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      # Initializes the CodeQL tools for scanning.
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: java
-          # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
-          # queries: security-extended,security-and-quality
 
       - name: Setup JDK
         uses: actions/setup-java@v3
@@ -114,9 +100,6 @@ jobs:
 
       - name: Perform Build / Test
         run: sbt ++${{ matrix.scala }} compile test
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
 
   publish:
     name: Publish to GH Packages
