@@ -15,14 +15,10 @@ lazy val root = (project in file("."))
   .enablePlugins(PlayCore, Dependencies)
   .enablePlugins(DockerPlugin, AshScriptPlugin)
 
-sources in (Compile, doc) := Seq.empty
+Compile / doc / sources := Seq.empty
 routesGenerator := InjectedRoutesGenerator
-fork in run := true
 
 crossScalaVersions := Seq("2.13.5")
-
-// Coverage config.
-coverageEnabled in Test := true
 
 // Checkstyle config.
 checkstyleSeverityLevel := Some(CheckstyleSeverityLevel.Info)
