@@ -19,6 +19,7 @@ Compile / doc / sources := Seq.empty
 routesGenerator := InjectedRoutesGenerator
 
 scalaVersion := "2.13.8"
+versionScheme := Some("semver-spec")
 
 // Checkstyle config.
 checkstyleSeverityLevel := Some(CheckstyleSeverityLevel.Info)
