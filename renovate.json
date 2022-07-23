@@ -6,11 +6,11 @@
     "every weekend"
   ],
   "dependencyDashboard": true,
-  "stabilityDays": 14,
+  "stabilityDays": 90,
   "prCreation": "not-pending",
   "additionalBranchPrefix": "deps/",
   "addLabels": [
-    "Type: Dependency"
+    "type:dependency"
   ],
   "rebaseWhen": "conflicted",
   "packageRules": [
