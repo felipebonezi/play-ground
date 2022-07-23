@@ -11,7 +11,7 @@ object Common extends AutoPlugin {
 
   override def requires: Plugins = JvmPlugin && HeaderPlugin
 
-  val repoName = "playframework-core"
+  val repoName = "play-ground"
 
   override def globalSettings: Seq[Setting[_]] =
     Seq(

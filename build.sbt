@@ -12,7 +12,7 @@ maintainer := conf.getString("play.app.maintainer")
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
-  .enablePlugins(PlayCore, Dependencies, Common)
+  .enablePlugins(PlayGround, Dependencies, Common)
   .enablePlugins(DockerPlugin, AshScriptPlugin)
 
 Compile / doc / sources := Seq.empty
@@ -47,9 +47,3 @@ import java.io.File
 scalastyleFailOnError := true
 scalastyleTarget := new File("target/scalastyle-report/scalastyle-result.xml")
 Test / scalastyleTarget := new File("target/scalastyle-report/scalastyle-test-result.xml")
-
-// GitHub Packages config.
-githubOwner := "felipebonezi"
-githubRepository := "playframework-core"
-githubTokenSource :=
-  TokenSource.Environment("GITHUB_TOKEN") || TokenSource.GitConfig("github.token")

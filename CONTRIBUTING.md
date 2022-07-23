@@ -11,13 +11,13 @@ discussion.
 
 Additionally, there are issues labels you can use to navigate issues that a good start to contribute:
 
-- [`Status: Need Help!`](https://github.com/felipebonezi/playframework-core/labels/Status%3A%20Need%20Help%21)
-- [`Type: Community`](https://github.com/felipebonezi/playframework-core/labels/Type%3A%20Community)
-- [`Type: Good First Issue`](https://github.com/felipebonezi/playframework-core/labels/Type%3A%20Good%20First%20Issue)
+- [`Status: Need Help!`](https://github.com/felipebonezi/play-ground/labels/Status%3A%20Need%20Help%21)
+- [`Type: Community`](https://github.com/felipebonezi/play-ground/labels/Type%3A%20Community)
+- [`Type: Good First Issue`](https://github.com/felipebonezi/play-ground/labels/Type%3A%20Good%20First%20Issue)
 
 ### Procedure
 
-1. Make sure you have signed the [CLA](https://cla-assistant.io/felipebonezi/playframework-core); if not, sign
+1. Make sure you have signed the [CLA](https://cla-assistant.io/felipebonezi/play-ground); if not, sign
    it online.
 2. Ensure that your contribution meets the following guidelines:
     1. Live up to the current code standard:
