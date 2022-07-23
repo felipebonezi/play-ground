@@ -12,7 +12,7 @@ maintainer := conf.getString("play.app.maintainer")
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
-  .enablePlugins(PlayCore, Dependencies)
+  .enablePlugins(PlayCore, Dependencies, Common)
   .enablePlugins(DockerPlugin, AshScriptPlugin)
 
 Compile / doc / sources := Seq.empty
@@ -20,6 +20,18 @@ routesGenerator := InjectedRoutesGenerator
 
 scalaVersion := "2.13.8"
 versionScheme := Some("semver-spec")
+
+addCommandAlias(
+  "validateCode",
+  List(
+    "headerCheckAll",
+    "scalafmtSbtCheck",
+    "scalafmtCheckAll",
+    "test:scalafmtCheckAll",
+    "scalastyle",
+    "test:scalastyle"
+  ).mkString(";")
+)
 
 // Checkstyle config.
 checkstyleSeverityLevel := Some(CheckstyleSeverityLevel.Info)
