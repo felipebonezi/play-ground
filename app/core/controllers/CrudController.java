@@ -24,6 +24,7 @@ import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.shaded.ahc.io.netty.handler.codec.http.HttpHeaderNames;
 
 /**
  * Basic CRUD controller implementation.
@@ -117,7 +118,7 @@ public abstract class CrudController<M extends UpdateForm> extends FormControlle
    *
    * @param req Http request.
    *
-   * @return Status "200 OK" with entity Id.
+   * @return Status "201 Created" with entity Id.
    */
   @BodyParser.Of(BodyParser.Json.class)
   public CompletionStage<Result> create(Http.Request req) {
@@ -131,16 +132,15 @@ public abstract class CrudController<M extends UpdateForm> extends FormControlle
         return badRequest(jsonError(FormController.Code.INVALID_FORM, form));
       }
       
-      Long entityId;
       try {
-        entityId = createEntity(req, form.get());
+        Long       entityId = createEntity(req, form.get());
+        ObjectNode json     = jsonSuccess();
+        json.put(Parameter.ID, entityId);
+        return created(json).withHeader(HttpHeaderNames.LOCATION.toString(),
+            String.format("%s/%d", req.path(), entityId));
       } catch (CoreException e) {
         return badRequest(jsonError(e.getCode(), e.getMessage()));
       }
-      
-      ObjectNode json = jsonSuccess();
-      json.put(Parameter.ID, entityId);
-      return ok(json);
     }, this.context.current());
   }
   
