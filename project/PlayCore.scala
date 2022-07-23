@@ -20,7 +20,6 @@ object PlayCore extends AutoPlugin {
   override def projectSettings
       : Seq[Def.Setting[_ >: String with File with Task[Seq[String]] with Boolean]] = Seq(
     name := conf.getString("play.app.name"),
-    version := conf.getString("play.app.version"),
     unmanagedBase := baseDirectory.value / "routing",
     Test / scalacOptions ++= Seq("-Yrangepos"),
     Test / javaOptions ++= Seq("-Dconfig.resource=application.test.conf"),
