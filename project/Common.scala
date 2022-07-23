@@ -11,7 +11,7 @@ object Common extends AutoPlugin {
 
   override def requires: Plugins = JvmPlugin && HeaderPlugin
 
-  val repoName = "playframework-core"
+  val repoName = "play-ground"
 
   override def globalSettings: Seq[Setting[_]] =
     Seq(
@@ -32,12 +32,6 @@ object Common extends AutoPlugin {
       ),
       // on the web
       homepage := Some(url(s"https://github.com/felipebonezi/$repoName")),
-      scmInfo := Some(
-        ScmInfo(
-          url(s"https://github.com/felipebonezi/$repoName"),
-          s"scm:git:git@github.com:felipebonezi/$repoName.git"
-        )
-      ),
       developers += Developer(
         "contributors",
         "Contributors",

@@ -11,7 +11,7 @@ import sbt.Def
 import sbt._
 import sbt.plugins.JvmPlugin
 
-object PlayCore extends AutoPlugin {
+object PlayGround extends AutoPlugin {
   private lazy val conf: Config = ConfigFactory.parseFile(new File("conf/reference.conf"))
 
   override def trigger: PluginTrigger = allRequirements
