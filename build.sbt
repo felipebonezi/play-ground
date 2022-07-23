@@ -21,6 +21,9 @@ routesGenerator := InjectedRoutesGenerator
 scalaVersion := "2.13.8"
 versionScheme := Some("semver-spec")
 
+ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
+ThisBuild / sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+
 addCommandAlias(
   "validateCode",
   List(

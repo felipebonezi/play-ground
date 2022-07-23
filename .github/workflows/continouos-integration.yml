@@ -1,3 +1,5 @@
+# Continouos Integration action.
+# ~~~~
 name: "CI"
 on:
   release:
@@ -9,9 +11,10 @@ on:
     branches: [ main, '**' ]
   schedule:
     - cron: '45 3 * * 1'
+
 jobs:
-  lint:
-    name: Verify ScalaFmt
+  validate:
+    name: Validate Code
     if: "(github.event.release || github.event.release.prerelease) == false"
     runs-on: ubuntu-latest
     steps:
@@ -24,46 +27,10 @@ jobs:
           java-version: '11'
           cache: 'sbt'
 
-      - name: Set GitHub token
-        run: git config --global github.token $TOKEN
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check Project Code
+        run: sbt validateCode
 
-      - name: Check ScalaFmt
-        run: sbt scalafmtSbtCheck scalafmtCheck Test/scalafmtCheck
-
-  checkstyle:
-    name: Verify Checkstyle / ScalaStyle
-    if: "(github.event.release || github.event.release.prerelease) == false"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: corretto
-          java-version: '11'
-          cache: 'sbt'
-
-      - name: Set GitHub token
-        run: git config --global github.token $TOKEN
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check ScalaFmt
-        run: sbt checkstyle Test/checkstyle
-
-      - name: Check ScalaStyle
-        run: sbt scalastyle test:scalastyle
-
-      - name: Upload Checkstyle (XML)
-        uses: actions/upload-artifact@v3.1.0
-        with:
-          name: java-checkstyle-reports
-          path: ${{github.workspace}}/target/checkstyle-report.xml
-
-      - name: Upload Style Report (XML)
+      - name: Upload ScalaStyle Report (XML)
         uses: actions/upload-artifact@v3.1.0
         with:
           name: scalastyle-reports
@@ -73,7 +40,7 @@ jobs:
     name: Build & Analyze
     if: "(github.event.release || github.event.release.prerelease) == false"
     continue-on-error: ${{ matrix.experimental }}
-    needs: [ lint, checkstyle ]
+    needs: [ validate ]
     runs-on: ubuntu-latest
 
     strategy:
@@ -82,7 +49,7 @@ jobs:
         distribution: [ 'corretto' ]
         jdk: [ '11' ]
         scala: [ '2.13.8' ]
-        experimental: [false]
+        experimental: [ false ]
         include:
           - jdk: '17'
             distribution: 'corretto'
@@ -100,16 +67,11 @@ jobs:
           java-version: ${{ matrix.jdk }}
           cache: 'sbt'
 
-      - name: Set GitHub token
-        run: git config --global github.token $TOKEN
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Perform Build / Test
         run: sbt ++${{ matrix.scala }} compile test
 
   publish:
-    name: Publish to GH Packages
+    name: Publish to Sonatype
     if: "github.event.release || github.event.release.prerelease"
     runs-on: ubuntu-latest
     steps:
@@ -122,10 +84,10 @@ jobs:
           java-version: '11'
           cache: 'sbt'
 
-      - name: Set GitHub token
-        run: git config --global github.token $TOKEN
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish package
-        run: sbt publish
+        run: sbt ci-release
+        env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
