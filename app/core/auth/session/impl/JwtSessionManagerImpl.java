@@ -1,12 +1,14 @@
 package core.auth.session.impl;
 
+import static core.utils.StringUtil.EMPTY;
+import static java.util.Collections.emptyMap;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.base.Strings;
 import com.typesafe.config.Config;
 import core.auth.JwtValidateWithDb;
@@ -14,22 +16,22 @@ import core.auth.UserSession;
 import core.auth.session.SessionManager;
 import core.utils.DebugUtil;
 import core.utils.SessionUtil;
-import core.utils.StringUtil;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Collections;
+import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Optional;
 import javax.inject.Inject;
-import org.joda.time.DateTime;
 import play.cache.SyncCacheApi;
 import play.mvc.Http;
 
 /** JWT session manager implementation. */
 public class JwtSessionManagerImpl implements SessionManager {
   
-  private static final String CACHE_AUTH_USER = "credentials-ids-%s";
+  private static final String BEARER             = "Bearer";
+  private static final String BASIC              = "Basic";
+  private static final String CACHE_AUTH_USER    = "credentials-ids-%s";
+  private static final int    EXPIRATION_IN_SECS = 1800;
   
   private final Config            config;
   private final Algorithm         jwtAlgorithm;
@@ -57,44 +59,34 @@ public class JwtSessionManagerImpl implements SessionManager {
   }
   
   private static String removeBearer(String jwtToken) {
-    if (jwtToken.startsWith("Bearer") || jwtToken.startsWith("Basic")) {
-      jwtToken = jwtToken.replace("Bearer", StringUtil.EMPTY).trim();
-    }
-    return jwtToken;
+    return jwtToken.replace(BEARER, EMPTY).replace(BASIC, EMPTY).trim();
   }
   
   private Map<String, Claim> getClaims(String jwtToken) {
-    jwtToken = removeBearer(jwtToken);
+    String sanitizedJwtToken = removeBearer(jwtToken);
     
-    DecodedJWT jwt = null;
     try {
       JWTVerifier verifier = JWT.require(getJwtAlgorithm())
           .withIssuer("auth0")
-          .acceptNotBefore(DateTime.now().getMillis())
+          .acceptNotBefore(EXPIRATION_IN_SECS)
           .build(); //Reusable verifier instance
-      jwt = verifier.verify(jwtToken);
+      return verifier.verify(sanitizedJwtToken).getClaims();
     } catch (JWTVerificationException e) {
-      //Invalid signature/claims
+      // Invalid signature/claims.
       DebugUtil.error(e);
+      return emptyMap();
     }
-    return jwt != null ? jwt.getClaims() : Collections.emptyMap();
   }
   
-  @SuppressWarnings("MagicConstant")
   @Override
   public String newSession(Map<String, Object> claims) {
     Duration      duration   = this.config.getDuration("play.jwt.expiresIn");
     LocalDateTime expiration = LocalDateTime.now().minus(duration);
-    int           month      = expiration.getMonthValue() - 1;
-    
-    Calendar expiresAt = Calendar.getInstance();
-    expiresAt.set(expiration.getYear(), month, expiration.getDayOfMonth(), expiration.getHour(),
-        expiration.getMinute());
     
     String token = null;
     try {
       token = JWT.create()
-          .withExpiresAt(expiresAt.getTime())
+          .withExpiresAt(expiration.toInstant(ZoneOffset.UTC))
           .withIssuer("auth0")
           .withPayload(claims)
           .sign(getJwtAlgorithm());
@@ -107,7 +99,7 @@ public class JwtSessionManagerImpl implements SessionManager {
   @Override
   public Optional<UserSession> getSession(Http.Request req) {
     String jwtToken =
-        removeBearer(req.getHeaders().get(Http.HeaderNames.AUTHORIZATION).orElse(StringUtil.EMPTY));
+        removeBearer(req.getHeaders().get(Http.HeaderNames.AUTHORIZATION).orElse(EMPTY));
     
     if (Strings.isNullOrEmpty(jwtToken)) {
       // Valid JWT token is required.
@@ -115,7 +107,7 @@ public class JwtSessionManagerImpl implements SessionManager {
     }
     
     String      key           = String.format(CACHE_AUTH_USER, jwtToken);
-    UserSession sessionCached = (UserSession) cacheApi.get(key).orElse(null);
+    UserSession sessionCached = (UserSession) this.cacheApi.get(key).orElse(null);
     
     if (sessionCached != null && !validateWithDb.isValid(sessionCached)) {
       // Valid JWT token is required.
@@ -127,7 +119,7 @@ public class JwtSessionManagerImpl implements SessionManager {
     
     if (newSession != null) {
       // 30 minutes cached session.
-      cacheApi.set(key, newSession, 1800);
+      this.cacheApi.set(key, newSession, EXPIRATION_IN_SECS);
     }
     
     return Optional.ofNullable(newSession);
@@ -136,7 +128,7 @@ public class JwtSessionManagerImpl implements SessionManager {
   @Override
   public void removeSession(String authorization) {
     String key = String.format(CACHE_AUTH_USER, authorization);
-    cacheApi.remove(key);
+    this.cacheApi.remove(key);
   }
   
 }
