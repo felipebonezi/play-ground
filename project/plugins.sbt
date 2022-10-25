@@ -11,7 +11,7 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.18")
 addSbtPlugin("com.typesafe.play" % "sbt-play-ebean" % "6.2.0-RC7")
 
 // Sbt Header check.
-addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.7.0")
+addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.8.0")
 
 // Sbt-CI plugin
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.11")
