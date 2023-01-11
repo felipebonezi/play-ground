@@ -12,7 +12,7 @@ import sbt.plugins.JvmPlugin
 
 object Dependencies extends AutoPlugin {
   private val jbcryptVersion = "0.4"
-  private val javaJwtVersion = "4.2.1"
+  private val javaJwtVersion = "4.2.2"
 
   override def trigger: PluginTrigger = allRequirements
   override def requires: sbt.Plugins  = JvmPlugin
