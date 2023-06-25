@@ -37,4 +37,4 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.0.0")
 // Java Checkstyle plugin.
 // See more: https://github.com/etsy/sbt-checkstyle-plugin
 addSbtPlugin("com.etsy"                       % "sbt-checkstyle-plugin" % "3.1.1")
-dependencyOverrides += "com.puppycrawl.tools" % "checkstyle"            % "10.11.0"
+dependencyOverrides += "com.puppycrawl.tools" % "checkstyle"            % "10.12.1"
