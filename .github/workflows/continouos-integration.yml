@@ -31,7 +31,7 @@ jobs:
         run: sbt validateCode
 
       - name: Upload ScalaStyle Report (XML)
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: scalastyle-reports
           path: ${{github.workspace}}/target/scalastyle-report/
