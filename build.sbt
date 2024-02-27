@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
 Compile / doc / sources := Seq.empty
 routesGenerator := InjectedRoutesGenerator
 
-scalaVersion := "2.13.8"
+scalaVersion := "2.13.13"
 versionScheme := Some("semver-spec")
 
 sonatypeCredentialHost := "s01.oss.sonatype.org"
