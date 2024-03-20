@@ -8,7 +8,7 @@
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.19")
 
 // Ebean plugin for play framework
-addSbtPlugin("com.typesafe.play" % "sbt-play-ebean" % "6.2.0")
+addSbtPlugin("com.typesafe.play" % "sbt-play-ebean" % "7.2.0")
 
 // Sbt Header check.
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.10.0")
