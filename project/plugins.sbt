@@ -14,7 +14,7 @@ addSbtPlugin("com.typesafe.play" % "sbt-play-ebean" % "6.2.0")
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.10.0")
 
 // Sbt-CI plugin
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.12")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.8.0")
 
 // Visualize your project's dependencies.
 // `dependencyTree`: Shows an ASCII tree representation of the project's dependencies
